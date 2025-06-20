@@ -1,22 +1,23 @@
+/*
+ * @Author: caorui 778943319@qq.com
+ * @Date: 2025-06-20 14:43:34
+ * @LastEditors: caorui 778943319@qq.com
+ * @LastEditTime: 2025-06-20 14:56:18
+ * @FilePath: \CesiumSDK_Examples\src\router\index.js
+ * @Description: 
+ * 
+ */
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
+      name: 'Init',
+      component: () => import('../views/Init/index.vue'),
     },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
-    },
+    
   ],
 })
 

@@ -2,7 +2,7 @@
  * @Author: caorui 778943319@qq.com
  * @Date: 2025-06-20 14:43:34
  * @LastEditors: caorui 778943319@qq.com
- * @LastEditTime: 2025-06-20 14:50:57
+ * @LastEditTime: 2025-06-20 14:58:48
  * @FilePath: \CesiumSDK_Examples\vite.config.js
  * @Description: 
  * 
@@ -29,6 +29,21 @@ export default defineConfig({
       resolvers: [ElementPlusResolver({ importStyle: "sass" })],
     }),
   ],
+  server: {
+    host: "0.0.0.0",
+    port: 8080,
+    open: false,
+    cors: true,
+    proxy: {
+      "/api": {
+        target: "https://demo.chysny.com:9705",
+        ws: true, //代理websockets
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
