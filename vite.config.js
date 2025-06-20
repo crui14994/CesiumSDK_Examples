@@ -2,7 +2,7 @@
  * @Author: caorui 778943319@qq.com
  * @Date: 2025-06-20 14:43:34
  * @LastEditors: caorui 778943319@qq.com
- * @LastEditTime: 2025-06-20 14:58:48
+ * @LastEditTime: 2025-06-20 15:16:12
  * @FilePath: \CesiumSDK_Examples\vite.config.js
  * @Description: 
  * 
@@ -49,4 +49,10 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {}, // 启用 SCSS 支持
+      sass: {}  // 启用缩进语法的 Sass 支持
+    }
+  }
 })
