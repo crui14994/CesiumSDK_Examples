@@ -1,5 +1,14 @@
+<!--
+ * @Author: caorui 778943319@qq.com
+ * @Date: 2025-06-20 14:54:02
+ * @LastEditors: caorui 778943319@qq.com
+ * @LastEditTime: 2025-06-20 16:43:07
+ * @FilePath: \CesiumSDK_Examples\src\views\init\index.vue
+ * @Description: 
+ * 
+-->
 <template>
-  <div class="container">
+  <div class="map-box">
     <div id="cesiumContainer"></div>
   </div>
 </template>
@@ -10,6 +19,7 @@ import "cesium-plugins-fn/dist/lib/MapLayer/index.js";
 
 onMounted(() => {
   initMap();
+  
 });
 
 /**初始化map*/
@@ -40,14 +50,13 @@ const initMap = () => {
 </script>
 
 <style scoped lang="scss">
-.container {
+.map-box {
   width: 100vw;
-  height: 800vh;
-//   position: relative;
+  height: 100vh;
+  position: relative;
   #cesiumContainer {
     width: 100%;
     height: 100%;
-    position: relative;
     background: #787878;
     // :deep(.cesium-viewer) {
     //   .cesium-viewer-animationContainer {
