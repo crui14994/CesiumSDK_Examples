@@ -58,15 +58,6 @@ const initMap = () => {
     width: 100%;
     height: 100%;
     background: #787878;
-    // :deep(.cesium-viewer) {
-    //   .cesium-viewer-animationContainer {
-    //     display: none;
-    //   }
-
-    //   .cesium-viewer-timelineContainer {
-    //     display: none;
-    //   }
-    // }
   }
 }
 </style>
