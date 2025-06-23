@@ -51,8 +51,8 @@ const initMap = () => {
 
 <style scoped lang="scss">
 .map-box {
-  width: 100vw;
-  height: 100vh;
+   width: 100%;
+    height: 100%;
   position: relative;
   #cesiumContainer {
     width: 100%;

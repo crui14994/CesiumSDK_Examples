@@ -2,7 +2,7 @@
  * @Author: caorui 778943319@qq.com
  * @Date: 2025-06-20 14:54:02
  * @LastEditors: caorui 778943319@qq.com
- * @LastEditTime: 2025-06-23 10:49:12
+ * @LastEditTime: 2025-06-23 10:59:09
  * @FilePath: \CesiumSDK_Examples\src\views\customMap\index.vue
  * @Description: 
  * 
@@ -51,7 +51,7 @@ const loadImagery = () => {
   let img_map = CM.Imagery.createUrlImageryLayer({
     url: `${window.location.origin}/data/town/img_map/{z}/{x}/{y}.png`,
   });
-  CM.Viewer.addBaseLayer([img,img_map]);
+  CM.Viewer.addBaseLayer([img, img_map]);
 
   CM.Animation.cameraFlyTo(
     {
@@ -66,15 +66,16 @@ const loadImagery = () => {
     },
     () => {
       console.log("自定义地图加载完成");
-    },1
+    },
+    1
   );
 };
 </script>
 
 <style scoped lang="scss">
 .map-box {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   position: relative;
   #cesiumContainer {
     width: 100%;
