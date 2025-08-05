@@ -7,17 +7,17 @@
  * @Description:
  *
  */
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from 'vue-router';
 
 // 动态导入 views 下所有文件夹中的 index.vue 文件
-const viewModules = import.meta.glob("../views/*/index.vue");
+const viewModules = import.meta.glob('../views/*/index.vue');
 
 // 生成路由配置
 const routes = Object.keys(viewModules).map((path) => {
   const folderName = path.match(/\.\/views\/(.*?)\/index\.vue/)?.[1];
-  
+
   return {
-    path: folderName=="Init" ? "/" :`/${folderName.toLowerCase()}`,
+    path: folderName == 'Init' ? '/' : `/${folderName.toLowerCase()}`,
     name: folderName,
     component: viewModules[path],
   };

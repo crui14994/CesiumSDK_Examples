@@ -2,7 +2,7 @@
  * @Author: caorui 778943319@qq.com
  * @Date: 2025-06-20 14:43:34
  * @LastEditors: caorui 778943319@qq.com
- * @LastEditTime: 2025-06-23 11:12:36
+ * @LastEditTime: 2025-08-05 10:19:34
  * @FilePath: \CesiumSDK_Examples\src\App.vue
  * @Description: 
  * 
@@ -27,37 +27,37 @@
 </template>
 
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
+  import { RouterView } from 'vue-router';
 
-import { ref } from "vue";
+  import { ref } from 'vue';
 
-const navList = ref([
-  {
-    name: "初始化地图",
-    path: "/",
-  },
-  {
-    name: "图层相关",
-    children: [
-      {
-        name: "自定义图层",
-        path: "/customMap",
-      },
-    ],
-  },
-]);
-const activeIndex = ref("/");
+  const navList = ref([
+    {
+      name: '初始化地图',
+      path: '/',
+    },
+    {
+      name: '图层相关',
+      children: [
+        {
+          name: '自定义图层',
+          path: '/customMap',
+        },
+      ],
+    },
+  ]);
+  const activeIndex = ref('/');
 </script>
 
 <style scoped>
-.el-menu-demo {
-  position: fixed;
-  top: 0;
-  z-index: 10;
-  width: 100%;
-}
-.content-box {
-  height: 100vh;
-  padding-top: 60px;
-}
+  .el-menu-demo {
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+  }
+  .content-box {
+    height: 100vh;
+    padding-top: 60px;
+  }
 </style>

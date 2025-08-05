@@ -1,0 +1,10 @@
+# 忽略目录
+dist/
+public/
+node_modules/
+.cache/
+
+# 忽略文件
+*.log
+*.min.*
+package-lock.json

@@ -1,0 +1,13 @@
+###
+ # @Author: caorui 778943319@qq.com
+ # @Date: 2025-08-05 10:18:00
+ # @LastEditors: caorui 778943319@qq.com
+ # @LastEditTime: 2025-08-05 10:18:12
+ # @FilePath: \CesiumSDK_Examples\.husky\pre-commit
+ # @Description: 
+ # 
+### 
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx lint-staged
