@@ -9,7 +9,10 @@
     "preview": "vite preview",
     "lint": "eslint --ext .vue,.js,.jsx,.cjs,.mjs src --fix",
     "format": "prettier --write src/",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "publishMajor": "cd ./src/CesiumSDK && npm run build && npm run major && npm publish",
+    "publishMinor": "cd ./src/CesiumSDK && npm run build && npm run minor && npm publish",
+    "publishPatch": "cd ./src/CesiumSDK && npm run build && npm run patch && npm publish"
   },
   "dependencies": {
     "cesium-plugins-fn": "^4.2.2",
