@@ -7,7 +7,6 @@
  * @Description:
  *
  */
-/*global Cesium*/
 import MaterialProperty from '../MaterialProperty.js';
 
 Cesium.Material.PolylineImageTrailType = 'PolylineImageTrail';
@@ -53,7 +52,7 @@ Cesium.Material._materialCache.addMaterial(Cesium.Material.PolylineImageTrailTyp
             return material;
           }`,
   },
-  translucent: function(material) {
+  translucent: function (material) {
     return true;
   },
 });

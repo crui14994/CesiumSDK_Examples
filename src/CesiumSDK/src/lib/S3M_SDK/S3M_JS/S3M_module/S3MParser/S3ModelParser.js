@@ -588,10 +588,7 @@ function parseInstanceInfo(buffer, view, bytesOffset, vertexPackage) {
       let len = texCoordCount * texDimensions;
       vertexPackage.instanceBounds = new Float32Array(len);
       for (let k = 0; k < len; k++) {
-        vertexPackage.instanceBounds[k] = view.getFloat32(
-          bytesOffset + k * Float32Array.BYTES_PER_ELEMENT,
-          true
-        );
+        vertexPackage.instanceBounds[k] = view.getFloat32(bytesOffset + k * Float32Array.BYTES_PER_ELEMENT, true);
       }
     }
 
@@ -855,14 +852,7 @@ function parseStandardSkeleton(buffer, view, bytesOffset, vertexPackage, version
   return bytesOffset;
 }
 
-function loadMeshOpt(
-  vertexCount,
-  attrType,
-  attributeDim,
-  oriBuffer,
-  vertexPackage,
-  compressOptions
-) {
+function loadMeshOpt(vertexCount, attrType, attributeDim, oriBuffer, vertexPackage, compressOptions) {
   let nAttrSize = 0;
   let pDecodeVertices;
 
@@ -902,13 +892,7 @@ function loadMeshOpt(
   }
 
   // decompress
-  MeshoptDecoder.decodeVertexBuffer(
-    pDecodeVertices,
-    vertexCount,
-    nAttrSize,
-    oriBuffer,
-    oriBuffer.length
-  );
+  MeshoptDecoder.decodeVertexBuffer(pDecodeVertices, vertexCount, nAttrSize, oriBuffer, oriBuffer.length);
 
   let pTexCoords, arrayType, componentDatatype;
   switch (attrType) {
@@ -1204,12 +1188,7 @@ function parseMeshOpIndexPackage(buffer, view, bytesOffset, arrIndexPackage, ver
     let decodeIndices;
     if (operationType !== 13) {
       decodeIndices = new Uint8Array(indexCount * Uint32Array.BYTES_PER_ELEMENT);
-      MeshoptDecoder.decodeIndexBuffer(
-        decodeIndices,
-        indexCount,
-        Uint32Array.BYTES_PER_ELEMENT,
-        oriIndexBuffer
-      );
+      MeshoptDecoder.decodeIndexBuffer(decodeIndices, indexCount, Uint32Array.BYTES_PER_ELEMENT, oriIndexBuffer);
     } else {
       decodeIndices = oriIndexBuffer;
     }
@@ -1269,19 +1248,13 @@ function parseCompressSkeleton(buffer, view, bytesOffset, vertexPackage) {
 
   bytesOffset = parseSecondColor(buffer, view, bytesOffset, vertexPackage);
 
-  if (
-    (compressOptions & VertexCompressOption.SVC_TexutreCoord) ===
-    VertexCompressOption.SVC_TexutreCoord
-  ) {
+  if ((compressOptions & VertexCompressOption.SVC_TexutreCoord) === VertexCompressOption.SVC_TexutreCoord) {
     bytesOffset = parseCompressTexCoord(buffer, view, bytesOffset, vertexPackage);
   } else {
     bytesOffset = parseTexCoord(buffer, view, bytesOffset, vertexPackage);
   }
 
-  if (
-    (compressOptions & VertexCompressOption.SVC_TexutreCoordIsW) ===
-    VertexCompressOption.SVC_TexutreCoordIsW
-  ) {
+  if ((compressOptions & VertexCompressOption.SVC_TexutreCoordIsW) === VertexCompressOption.SVC_TexutreCoordIsW) {
     vertexPackage.textureCoordIsW = true;
   }
 
@@ -1501,8 +1474,7 @@ function parseTexturePackage(buffer, view, bytesOffset, texturePackage) {
     bytesOffset += Uint32Array.BYTES_PER_ELEMENT;
     let textureData = new Uint8Array(buffer, bytesOffset, size);
     bytesOffset += size;
-    let internalFormat =
-      pixelFormat === S3MPixelFormat.RGB || pixelFormat === S3MPixelFormat.BGR ? 33776 : 33779;
+    let internalFormat = pixelFormat === S3MPixelFormat.RGB || pixelFormat === S3MPixelFormat.BGR ? 33776 : 33779;
     if (compressType === 22) {
       internalFormat = 36196; //rgb_etc1
     }
@@ -1512,8 +1484,7 @@ function parseTexturePackage(buffer, view, bytesOffset, texturePackage) {
       DXTTextureDecode.decode(out, width, height, textureData, pixelFormat);
       textureData = out;
       compressType = 0;
-      internalFormat =
-        pixelFormat === S3MPixelFormat.RGB || pixelFormat === S3MPixelFormat.RGB ? 273 : 4369;
+      internalFormat = pixelFormat === S3MPixelFormat.RGB || pixelFormat === S3MPixelFormat.RGB ? 273 : 4369;
     }
 
     texturePackage[textureCode] = {
@@ -1631,9 +1602,7 @@ function parsePickInfo(buffer, view, bytesOffset, nOptions, geoPackage, version)
           let offset = j * instanceMode * Float32Array.BYTES_PER_ELEMENT + beginOffset;
           Cesium.Color.unpack(instanceArray, offset, colorScratch);
           let pickId =
-            version === 2
-              ? selectionId[j]
-              : colorScratch.red + colorScratch.green * 256 + colorScratch.blue * LEFT_16;
+            version === 2 ? selectionId[j] : colorScratch.red + colorScratch.green * 256 + colorScratch.blue * LEFT_16;
           if (pickInfo[pickId] === undefined) {
             pickInfo[pickId] = {
               vertexColorCount: 1,
@@ -1668,7 +1637,7 @@ function createBatchIdAttribute(vertexPackage, typedArray, instanceDivisor) {
   });
 }
 
-S3ModelParser.parseBuffer = function(buffer) {
+S3ModelParser.parseBuffer = function (buffer) {
   let bytesOffset = 0;
   let result = {
     version: undefined,

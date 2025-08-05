@@ -5,7 +5,6 @@
  * @LastEditors: Please set LastEditors
  * @Description:
  */
-/*global Cesium */
 import Position from './Position';
 
 const DEF_OPTS = {
@@ -102,9 +101,7 @@ class Viewer {
     // this.scene.screenSpaceCameraController.maximumZoomDistance = 25000;
 
     //取消双击事件
-    this._viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(
-      Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
-    );
+    this._viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
     //去除版权信息
     this._viewer._cesiumWidget._creditContainer.style.display = 'none';
@@ -144,7 +141,7 @@ class Viewer {
         fragmentShader: fs,
         uniforms: {
           scale: 1.0,
-          offset: function() {
+          offset: function () {
             return new Cesium.Cartesian3(0.1, 0.2, 0.3);
           },
         },
@@ -253,7 +250,7 @@ class Viewer {
     if (removeAllLayer) {
       this.imageryLayers.removeAll();
     }
-    baseLayers.forEach(item => {
+    baseLayers.forEach((item) => {
       let itemLayer = this.imageryLayers.addImageryProvider(item);
       layersArr.push(itemLayer);
     });
@@ -273,9 +270,9 @@ class Viewer {
     if (removeAllLayer) {
       this.scene.primitives.removeAll();
     }
-    baseLayers.forEach(item => {
+    baseLayers.forEach((item) => {
       let itemLayer = this.scene.primitives.add(item);
-      itemLayer.readyPromise.then(function(tileset) {
+      itemLayer.readyPromise.then(function (tileset) {
         console.log(tileset);
 
         let tans = Cesium.Matrix4.fromTranslation(new Cesium.Cartesian3(tileset._position));
@@ -309,7 +306,7 @@ class Viewer {
       clampToGround: true, //开启贴地
     };
     let promise = this.dataSources.add(Cesium.KmlDataSource.load(kmlUrl, options));
-    promise.then(dataSource => {
+    promise.then((dataSource) => {
       fly && this._viewer.flyTo(promise);
       let entities = dataSource.entities.values;
       callback && callback(entities);
@@ -328,9 +325,9 @@ class Viewer {
       };
     }
     let promise = this.dataSources.add(Cesium.GeoJsonDataSource.load(geoJson, style));
-    promise.then(dataSource => {
+    promise.then((dataSource) => {
       let entities = dataSource.entities.values;
-      entities.forEach(item => {
+      entities.forEach((item) => {
         delete myData.GEOJSON;
         item.myData = myData;
       });

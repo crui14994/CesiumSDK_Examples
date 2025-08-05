@@ -5,7 +5,6 @@
  * @LastEditors: caorui 778943319@qq.com
  * @Description:
  */
-/*global Cesium viewer CM*/
 import { getContext } from '../context';
 
 import Position from './Position';
@@ -14,7 +13,6 @@ import BaseFn from './BaseFn';
 let entityRoaming,
   property, //巡航的entity对象
   propertyTimes = []; //巡航的entity对象的时间集合
-// eslint-disable-next-line no-unused-vars
 
 let dataSources = new Cesium.CustomDataSource('dataSourcesRoaming'); //创建一个数据源
 
@@ -85,10 +83,7 @@ class Roaming {
     polylineData.forEach((point, index) => {
       let distance = 0;
       if (index > 0) {
-        distance = this.BaseFnUtils.getSpaceDistance([
-          polylineData[index - 1],
-          polylineData[index],
-        ]);
+        distance = this.BaseFnUtils.getSpaceDistance([polylineData[index - 1], polylineData[index]]);
       }
       //用于匀速飞行
       let t2 = (distance / distanceTotal) * duration + num;
@@ -103,9 +98,7 @@ class Roaming {
     });
 
     entityRoaming = dataSources.entities.add({
-      availability: new Cesium.TimeIntervalCollection([
-        new Cesium.TimeInterval({ start: start, stop: stop }),
-      ]),
+      availability: new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({ start: start, stop: stop })]),
       position: property,
       orientation: new Cesium.VelocityOrientationProperty(property),
       model: {
@@ -152,10 +145,7 @@ class Roaming {
       } else {
         let viewer = this.viewer;
         // viewer.trackedEntity = undefined;
-        viewer.zoomTo(
-          dataSources.entities,
-          new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-90))
-        );
+        viewer.zoomTo(dataSources.entities, new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-90)));
       }
     } else {
       throw new Error('还为创建巡航对象！'); //注意Error要大写
@@ -168,10 +158,7 @@ class Roaming {
     if (that.roamingHandler && entityRoaming) {
       let viewer = this.viewer;
       // viewer.trackedEntity = undefined;
-      viewer.zoomTo(
-        dataSources.entities,
-        new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-90))
-      );
+      viewer.zoomTo(dataSources.entities, new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-90)));
       viewer.scene.preRender.removeEventListener(that._roamingHandlerFn);
       that.roamingHandler = null;
     } else {
@@ -183,9 +170,7 @@ class Roaming {
   _roamingHandlerFn(scene, time) {
     let currentPosition = entityRoaming.position.getValue(time); // 获取当前模型位置
     if (currentPosition) {
-      let nextPosition = property.getValue(
-        Cesium.JulianDate.addSeconds(time, 0.1, new Cesium.JulianDate())
-      ); // 获取下一个位置
+      let nextPosition = property.getValue(Cesium.JulianDate.addSeconds(time, 0.1, new Cesium.JulianDate())); // 获取下一个位置
       let heading = 0;
       if (nextPosition && currentPosition) {
         // 计算航向角（heading）
@@ -194,10 +179,7 @@ class Roaming {
       const dynamicHeading = Cesium.Math.toRadians(heading);
       const pitch = Cesium.Math.toRadians(Roaming.roamingPitch);
       const range = Roaming.roamingRange;
-      viewer.camera.lookAt(
-        currentPosition,
-        new Cesium.HeadingPitchRange(dynamicHeading, pitch, range)
-      );
+      viewer.camera.lookAt(currentPosition, new Cesium.HeadingPitchRange(dynamicHeading, pitch, range));
     }
   }
   /**跟踪巡航实体 */
@@ -239,7 +221,7 @@ class Roaming {
   RoamingHeight(value) {
     Roaming.roamingHeight = value;
 
-    propertyTimes.forEach(time => {
+    propertyTimes.forEach((time) => {
       let position = property.getValue(time);
       let wgs84 = this.PositionUtils.transformCartesianToWGS84(position);
       let cartesian = Cesium.Cartesian3.fromDegrees(wgs84.lng, wgs84.lat, Roaming.roamingHeight);

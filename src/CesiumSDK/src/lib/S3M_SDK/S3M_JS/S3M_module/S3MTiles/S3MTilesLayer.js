@@ -54,68 +54,68 @@ function S3MTilesLayer(options) {
 
 Object.defineProperties(S3MTilesLayer.prototype, {
   ready: {
-    get: function() {
+    get: function () {
       return this._rootTiles.length > 0;
     },
   },
   readyPromise: {
-    get: function() {
+    get: function () {
       return this._readyPromise;
     },
   },
   rectangle: {
-    get: function() {
+    get: function () {
       return this._rectangle;
     },
   },
   visibleDistanceMax: {
-    get: function() {
+    get: function () {
       return this._visibleDistanceMax;
     },
-    set: function(value) {
+    set: function (value) {
       Cesium.Check.typeOf.number('max visible distance', value);
       this._visibleDistanceMax = value;
     },
   },
   visibleDistanceMin: {
-    get: function() {
+    get: function () {
       return this._visibleDistanceMin;
     },
-    set: function(value) {
+    set: function (value) {
       Cesium.Check.typeOf.number('min visible distance', value);
       this._visibleDistanceMin = value;
     },
   },
   lodRangeScale: {
-    get: function() {
+    get: function () {
       return this._lodRangeScale;
     },
-    set: function(value) {
+    set: function (value) {
       Cesium.Check.typeOf.number('set layer lod range scale', value);
       this._lodRangeScale = value;
     },
   },
   totalMemoryUsageInBytes: {
-    get: function() {
+    get: function () {
       return this._totalMemoryUsageInBytes;
     },
-    set: function(value) {
+    set: function (value) {
       this._totalMemoryUsageInBytes = value;
     },
   },
   maximumMemoryUsage: {
-    get: function() {
+    get: function () {
       return this._maximumMemoryUsage;
     },
-    set: function(value) {
+    set: function (value) {
       this._maximumMemoryUsage = value;
     },
   },
   style3D: {
-    get: function() {
+    get: function () {
       return this._style3D;
     },
-    set: function(value) {
+    set: function (value) {
       this._style3D = value;
     },
   },
@@ -123,7 +123,7 @@ Object.defineProperties(S3MTilesLayer.prototype, {
 
 Cesium.Scene.prototype.hookPickFunc = Cesium.Scene.prototype.pick;
 
-Cesium.Scene.prototype.pick = function(windowPosition, width, height) {
+Cesium.Scene.prototype.pick = function (windowPosition, width, height) {
   let picked = this.hookPickFunc(windowPosition, width, height);
   if (picked) {
     let isS3MTilesLayer = picked.primitive && picked.primitive instanceof S3MTilesLayer;
@@ -140,10 +140,10 @@ Cesium.Scene.prototype.pick = function(windowPosition, width, height) {
   return picked;
 };
 
-S3MTilesLayer.prototype.loadConfig = function(url) {
+S3MTilesLayer.prototype.loadConfig = function (url) {
   let that = this;
   Promise.resolve(url)
-    .then(function(url) {
+    .then(function (url) {
       let basePath;
       let resource = Cesium.Resource.createIfNeeded(url);
       basePath = resource.getBaseUri(true);
@@ -152,7 +152,7 @@ S3MTilesLayer.prototype.loadConfig = function(url) {
       that._baseResource = resource;
       return resource.fetchJson();
     })
-    .then(function(config) {
+    .then(function (config) {
       let extensions = config.extensions;
       that.fileType = extensions['s3m:FileType'];
       that._vertexCompressionType = extensions['s3m:VertexCompressionType'];
@@ -195,12 +195,12 @@ S3MTilesLayer.prototype.loadConfig = function(url) {
 
       that._readyPromise.resolve(that);
     })
-    .catch(function(error) {
+    .catch(function (error) {
       that._readyPromise.reject(error);
     });
 };
 
-S3MTilesLayer.prototype._tranverseRenderEntity = function(options, callback) {
+S3MTilesLayer.prototype._tranverseRenderEntity = function (options, callback) {
   let stack = [];
   for (let i = 0, j = this._rootTiles.length; i < j; i++) {
     let rootTile = this._rootTiles[i];
@@ -227,7 +227,7 @@ function updateObjsOperationCallback(renderEntity, options) {
   renderEntity.updateObjsOperation(options.ids, options);
 }
 
-S3MTilesLayer.prototype._updateObjsOperation = function(ids) {
+S3MTilesLayer.prototype._updateObjsOperation = function (ids) {
   this._tranverseRenderEntity(
     {
       ids: ids,
@@ -236,7 +236,7 @@ S3MTilesLayer.prototype._updateObjsOperation = function(ids) {
   );
 };
 
-S3MTilesLayer.prototype._setObjsOperationType = function(ids, operationType) {
+S3MTilesLayer.prototype._setObjsOperationType = function (ids, operationType) {
   Cesium.Check.defined('set Objs Operation ids', ids);
   Cesium.Check.defined('set Objs Operation operationType', operationType);
   if (!Array.isArray(ids)) {
@@ -266,7 +266,7 @@ S3MTilesLayer.prototype._setObjsOperationType = function(ids, operationType) {
   }
 };
 
-S3MTilesLayer.prototype._removeObjsOperationType = function(ids, operationType) {
+S3MTilesLayer.prototype._removeObjsOperationType = function (ids, operationType) {
   Cesium.Check.defined('set Objs Operation ids', ids);
   if (!Array.isArray(ids)) {
     ids = [ids];
@@ -298,7 +298,7 @@ S3MTilesLayer.prototype._removeObjsOperationType = function(ids, operationType) 
   }
 };
 
-S3MTilesLayer.prototype.releaseSelection = function() {
+S3MTilesLayer.prototype.releaseSelection = function () {
   if (this._selections.length < 1) {
     return;
   }
@@ -307,7 +307,7 @@ S3MTilesLayer.prototype.releaseSelection = function() {
   this._selections.length = 0;
 };
 
-S3MTilesLayer.prototype.setSelection = function(ids) {
+S3MTilesLayer.prototype.setSelection = function (ids) {
   Cesium.Check.defined('setSelection ids', ids);
 
   if (!Array.isArray(ids)) {
@@ -359,7 +359,7 @@ function freeResource(layer) {
   layer._cache.unloadTiles(layer, unloadTile);
 }
 
-S3MTilesLayer.prototype.prePassesUpdate = function(frameState) {
+S3MTilesLayer.prototype.prePassesUpdate = function (frameState) {
   if (!this.ready) {
     return;
   }
@@ -372,7 +372,7 @@ S3MTilesLayer.prototype.prePassesUpdate = function(frameState) {
   }
 };
 
-S3MTilesLayer.prototype.postPassesUpdate = function(frameState) {
+S3MTilesLayer.prototype.postPassesUpdate = function (frameState) {
   if (!this.ready) {
     return;
   }
@@ -380,7 +380,7 @@ S3MTilesLayer.prototype.postPassesUpdate = function(frameState) {
   freeResource(this);
 };
 
-S3MTilesLayer.prototype.update = function(frameState) {
+S3MTilesLayer.prototype.update = function (frameState) {
   if (!this.ready) {
     return;
   }
@@ -391,11 +391,11 @@ S3MTilesLayer.prototype.update = function(frameState) {
   updateTiles(this, frameState);
 };
 
-S3MTilesLayer.prototype.isDestroyed = function() {
+S3MTilesLayer.prototype.isDestroyed = function () {
   return false;
 };
 
-S3MTilesLayer.prototype.destroy = function() {
+S3MTilesLayer.prototype.destroy = function () {
   this._cache.reset();
   freeResource(this);
   this._rootTiles.length = 0;

@@ -5,7 +5,6 @@
  * @LastEditors: caorui 778943319@qq.com
  * @Description:
  */
-/*global Cesium THREE*/
 import { getContext } from '../context';
 // three对象
 function _3DObject() {
@@ -40,7 +39,7 @@ class CesiumThree {
     // register Three.js scene with Cesium
     _this.three.camera.fov = Cesium.Math.toDegrees(_this.viewer.camera.frustum.fovy); // ThreeJS FOV is vertical
     //three.camera.updateProjectionMatrix();
-    let cartToVec = function(cart) {
+    let cartToVec = function (cart) {
       return new THREE.Vector3(cart.x, cart.y, cart.z);
     };
 
@@ -60,9 +59,7 @@ class CesiumThree {
         1
       );
       // use direction from bottom left to top left as up-vector
-      let bottomLeft = cartToVec(
-        Cesium.Cartesian3.fromDegrees(_this.minWGS84[0], _this.minWGS84[1])
-      );
+      let bottomLeft = cartToVec(Cesium.Cartesian3.fromDegrees(_this.minWGS84[0], _this.minWGS84[1]));
       let topLeft = cartToVec(Cesium.Cartesian3.fromDegrees(_this.minWGS84[0], _this.maxWGS84[1]));
       let latDir = new THREE.Vector3().subVectors(bottomLeft, topLeft).normalize();
       // configure entity position and orientation

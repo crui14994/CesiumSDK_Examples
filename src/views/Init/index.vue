@@ -2,7 +2,7 @@
  * @Author: caorui 778943319@qq.com
  * @Date: 2025-06-20 14:54:02
  * @LastEditors: caorui 778943319@qq.com
- * @LastEditTime: 2025-08-05 10:39:25
+ * @LastEditTime: 2025-08-05 13:36:49
  * @FilePath: \CesiumSDK_Examples\src\views\Init\index.vue
  * @Description: 
  * 
@@ -14,8 +14,11 @@
 </template>
 <script setup>
   import { onMounted } from 'vue';
-  import CesiumMap from 'cesium-plugins-fn';
-  import 'cesium-plugins-fn/dist/lib/MapLayer/index.js';
+  // import CesiumMap from 'cesium-plugins-fn';
+  // import 'cesium-plugins-fn/dist/lib/MapLayer/index.js';
+
+  import CesiumMap from '@/CesiumSDK/src/index.js';
+  import '@/CesiumSDK/src/lib/MapLayer/index.js';
 
   onMounted(() => {
     initMap();

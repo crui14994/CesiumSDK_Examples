@@ -5,7 +5,6 @@
  * @LastEditors: Please set LastEditors
  * @Description:
  */
-/*global Cesium CM*/
 import { getContext } from '../context';
 
 import iconMarker from '../image/icon_marker.png';
@@ -58,29 +57,26 @@ export default class Entity {
     let scene = this.viewer.scene;
     var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
     this.handler = handler;
-    handler.setInputAction(event => {
+    handler.setInputAction((event) => {
       // const clickPoint = scene.pick(event.position);	//设置拾取点，如果点击处有实体，返回拾取对象，否则返回undefined
       // if (clickPoint && this.entities.contains(clickPoint.id) && clickPoint.id instanceof Cesium.Entity) {		//判断实体是否存在
       //     callback && callback(clickPoint.id);
       // }
 
       //获取实体点击对象
-      let drillPick = scene.drillPick(event.position).map(item => item.id);
+      let drillPick = scene.drillPick(event.position).map((item) => item.id);
       if (drillPick.length > 0) {
         callback && callback(drillPick, event, 'Entity');
       } else {
         //如果点击没有实体，判断是否点击的是切片信息
         let pickRay = this.viewer.camera.getPickRay(event.position);
         //获取点击的矢量切片信息
-        let featuresPromise = this.viewer.imageryLayers.pickImageryLayerFeatures(
-          pickRay,
-          this.viewer.scene
-        );
+        let featuresPromise = this.viewer.imageryLayers.pickImageryLayerFeatures(pickRay, this.viewer.scene);
 
         if (!Cesium.defined(featuresPromise)) {
           console.log('No features picked.');
         } else {
-          featuresPromise.then(features => {
+          featuresPromise.then((features) => {
             if (features.length > 0) {
               callback && callback(features, event, 'ImageryLayerFeatures');
             }
@@ -104,7 +100,7 @@ export default class Entity {
     var handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
     this.handler = handler;
     let pointDraged, leftDownFlag;
-    handler.setInputAction(event => {
+    handler.setInputAction((event) => {
       let entity = this.viewer.scene.pick(event.position); //选取当前的entity
       if (entity && entity.id && entity.id.myData.isMove) {
         pointDraged = entity;
@@ -113,7 +109,7 @@ export default class Entity {
       }
     }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
 
-    handler.setInputAction(event => {
+    handler.setInputAction((event) => {
       if (leftDownFlag === true && pointDraged != null) {
         // console.log("鼠标移动");
         let ray = this.viewer.camera.getPickRay(event.endPosition);
@@ -133,8 +129,7 @@ export default class Entity {
       }
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
-    // eslint-disable-next-line no-unused-vars
-    handler.setInputAction(event => {
+    handler.setInputAction((event) => {
       leftDownFlag = false;
       this.viewer.scene.screenSpaceCameraController.enableRotate = true; //解锁相机
       callback && pointDraged && callback(pointDraged.id);
@@ -188,7 +183,7 @@ export default class Entity {
    * @return {*} 返回当前聚合图标点DataSource对象
    */
   pointToClusterMarker() {
-    this.entities._entities._array.forEach(item => {
+    this.entities._entities._array.forEach((item) => {
       this.loadCustomClusterMarker(item);
     });
     return this.clusterDataSource;
@@ -244,121 +239,114 @@ export default class Entity {
     }
 
     // 添加监听函数
-    this.clusterDataSource.clustering.clusterEvent.addEventListener(
-      async (clusteredEntities, cluster) => {
-        // 关闭自带的显示聚合数量的标签
-        cluster.label.show = false;
-        cluster.billboard.show = true;
-        cluster.billboard.verticalOrigin = Cesium.VerticalOrigin.BOTTOM;
+    this.clusterDataSource.clustering.clusterEvent.addEventListener(async (clusteredEntities, cluster) => {
+      // 关闭自带的显示聚合数量的标签
+      cluster.label.show = false;
+      cluster.billboard.show = true;
+      cluster.billboard.verticalOrigin = Cesium.VerticalOrigin.BOTTOM;
 
-        // 根据聚合数量的多少设置不同层级的图片以及大小
-        let index = clusterIconConfig.findIndex(item => clusteredEntities.length >= item.max);
-        let itemConfig = clusterIconConfig[index];
+      // 根据聚合数量的多少设置不同层级的图片以及大小
+      let index = clusterIconConfig.findIndex((item) => clusteredEntities.length >= item.max);
+      let itemConfig = clusterIconConfig[index];
 
-        if (itemConfig.isImg) {
-          cluster.billboard.image = await createClusterIMage(
-            itemConfig.imgUrl,
-            itemConfig.fontColor,
-            clusteredEntities.length,
-            itemConfig.width,
-            itemConfig.height
-          );
-        } else {
-          cluster.billboard.image = createClusterIcon(
-            itemConfig.color,
-            itemConfig.fontColor,
-            clusteredEntities.length,
-            itemConfig.width,
-            itemConfig.height
-          );
-        }
-        cluster.billboard.width = itemConfig.width;
-        cluster.billboard.height = itemConfig.height;
-
-        /**
-         * @description: 根据图片生成聚合图标
-         * @param {*} url：文件地址
-         * @param {*} label：文字
-         * @param {*} width：画布宽
-         * @param {*} height：画布高
-         * @return {*} 返回canvas
-         */
-        function createClusterIMage(url, fontColor, label, width, height) {
-          // 创建画布对象
-          let canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-          let ctx = canvas.getContext('2d');
-
-          // eslint-disable-next-line no-unused-vars
-          return new Promise((resolve, reject) => {
-            let image = document.createElement('img');
-            image.src = url;
-            image.onload = () => {
-              ctx.drawImage(image, 0, 0, width, height);
-              // font属性设置顺序：font-style, font-variant, font-weight, font-size, line-height, font-family
-              ctx.fillStyle = fontColor;
-              ctx.font = '14px Microsoft YaHei';
-              ctx.textAlign = 'center';
-              ctx.textBaseline = 'middle';
-              ctx.fillText(label, width / 2, height / 2);
-              resolve(canvas);
-            };
-          });
-        }
-
-        /**
-         * @description: 生成聚合图标
-         * @param {*} color：图标颜色
-         * @param {*} label：文字
-         * @param {*} width：画布宽
-         * @param {*} height：画布高
-         * @return {*} 返回canvas
-         */
-        function createClusterIcon(color, fontColor, label, width, height) {
-          // 创建画布对象
-          let canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-          let ctx = canvas.getContext('2d');
-
-          let startAngle = -Math.PI / 12;
-          let angle = Math.PI / 2;
-          let intervalAngle = Math.PI / 6;
-          ctx.save();
-          ctx.scale(width / 24, height / 24); //Added to auto-generated code to scale up to desired size.
-          ctx.beginPath();
-          ctx.arc(12, 12, 6, 0, 2 * Math.PI);
-          ctx.fillStyle = color;
-          ctx.fill();
-          ctx.closePath();
-          ctx.lineWidth = 2;
-          for (let i = 0; i < 3; i++) {
-            ctx.beginPath();
-            ctx.arc(12, 12, 8, startAngle, startAngle + angle, false);
-            ctx.strokeStyle = new Cesium.Color.fromCssColorString(color)
-              .withAlpha(0.4)
-              .toCssColorString();
-            ctx.stroke();
-            ctx.arc(12, 12, 11, startAngle, startAngle + angle, false);
-            ctx.strokeStyle = new Cesium.Color.fromCssColorString(color)
-              .withAlpha(0.2)
-              .toCssColorString();
-            ctx.stroke();
-            ctx.closePath();
-            startAngle = startAngle + angle + intervalAngle;
-          }
-          ctx.restore();
-          // font属性设置顺序：font-style, font-variant, font-weight, font-size, line-height, font-family
-          ctx.fillStyle = fontColor;
-          ctx.font = '14px Microsoft YaHei';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText(label, width / 2 - 1, height / 2 + 1);
-          return canvas;
-        }
+      if (itemConfig.isImg) {
+        cluster.billboard.image = await createClusterIMage(
+          itemConfig.imgUrl,
+          itemConfig.fontColor,
+          clusteredEntities.length,
+          itemConfig.width,
+          itemConfig.height
+        );
+      } else {
+        cluster.billboard.image = createClusterIcon(
+          itemConfig.color,
+          itemConfig.fontColor,
+          clusteredEntities.length,
+          itemConfig.width,
+          itemConfig.height
+        );
       }
-    );
+      cluster.billboard.width = itemConfig.width;
+      cluster.billboard.height = itemConfig.height;
+
+      /**
+       * @description: 根据图片生成聚合图标
+       * @param {*} url：文件地址
+       * @param {*} label：文字
+       * @param {*} width：画布宽
+       * @param {*} height：画布高
+       * @return {*} 返回canvas
+       */
+      function createClusterIMage(url, fontColor, label, width, height) {
+        // 创建画布对象
+        let canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        let ctx = canvas.getContext('2d');
+
+        return new Promise((resolve, reject) => {
+          let image = document.createElement('img');
+          image.src = url;
+          image.onload = () => {
+            ctx.drawImage(image, 0, 0, width, height);
+            // font属性设置顺序：font-style, font-variant, font-weight, font-size, line-height, font-family
+            ctx.fillStyle = fontColor;
+            ctx.font = '14px Microsoft YaHei';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(label, width / 2, height / 2);
+            resolve(canvas);
+          };
+        });
+      }
+
+      /**
+       * @description: 生成聚合图标
+       * @param {*} color：图标颜色
+       * @param {*} label：文字
+       * @param {*} width：画布宽
+       * @param {*} height：画布高
+       * @return {*} 返回canvas
+       */
+      function createClusterIcon(color, fontColor, label, width, height) {
+        // 创建画布对象
+        let canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        let ctx = canvas.getContext('2d');
+
+        let startAngle = -Math.PI / 12;
+        let angle = Math.PI / 2;
+        let intervalAngle = Math.PI / 6;
+        ctx.save();
+        ctx.scale(width / 24, height / 24); //Added to auto-generated code to scale up to desired size.
+        ctx.beginPath();
+        ctx.arc(12, 12, 6, 0, 2 * Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.closePath();
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 3; i++) {
+          ctx.beginPath();
+          ctx.arc(12, 12, 8, startAngle, startAngle + angle, false);
+          ctx.strokeStyle = new Cesium.Color.fromCssColorString(color).withAlpha(0.4).toCssColorString();
+          ctx.stroke();
+          ctx.arc(12, 12, 11, startAngle, startAngle + angle, false);
+          ctx.strokeStyle = new Cesium.Color.fromCssColorString(color).withAlpha(0.2).toCssColorString();
+          ctx.stroke();
+          ctx.closePath();
+          startAngle = startAngle + angle + intervalAngle;
+        }
+        ctx.restore();
+        // font属性设置顺序：font-style, font-variant, font-weight, font-size, line-height, font-family
+        ctx.fillStyle = fontColor;
+        ctx.font = '14px Microsoft YaHei';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(label, width / 2 - 1, height / 2 + 1);
+        return canvas;
+      }
+    });
 
     return this.clusterDataSource;
   }

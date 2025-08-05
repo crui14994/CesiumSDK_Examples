@@ -8,11 +8,11 @@ function MaterialPass() {
   this.textures = [];
 }
 
-MaterialPass.prototype.isDestroyed = function() {
+MaterialPass.prototype.isDestroyed = function () {
   return false;
 };
 
-MaterialPass.prototype.destroy = function() {
+MaterialPass.prototype.destroy = function () {
   let length = this.textures.length;
   for (let i = 0; i < length; i++) {
     let texture = this.textures[i];

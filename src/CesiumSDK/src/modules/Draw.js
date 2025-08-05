@@ -5,7 +5,6 @@
  * @LastEditors: caorui 778943319@qq.com
  * @Description:
  */
-/*global Cesium viewer*/
 import { getContext } from '../context';
 
 import iconMarker from '../image/icon_marker.png';
@@ -48,7 +47,7 @@ export default class Draw {
       this.handler = null;
     }
 
-    this._entities.forEach(item => {
+    this._entities.forEach((item) => {
       this.viewer.entities.remove(item);
     });
     this._drawData = null;
@@ -202,7 +201,7 @@ export default class Draw {
     this._clean();
     this._createdToolTip('左击选择点位，右击结束！');
     this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
-    this.handler.setInputAction(evt => {
+    this.handler.setInputAction((evt) => {
       //开始绘制
       //屏幕坐标转地形上坐标
       let cartesian = this.PositionUtils.getClickPosition(evt.position, 2);
@@ -218,16 +217,14 @@ export default class Draw {
         //计算俩点之间的距离
         let polylineData = this._positions.concat();
         polylineData.pop();
-        let distance = this.BaseFnUtils.getSpaceDistance(
-          polylineData.slice(polylineData.length - 2)
-        );
+        let distance = this.BaseFnUtils.getSpaceDistance(polylineData.slice(polylineData.length - 2));
         this._createPoint(cartesian, distance + '米'); // 绘制点
       } else {
         this._createPoint(cartesian); // 绘制点
       }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
-    this.handler.setInputAction(evt => {
+    this.handler.setInputAction((evt) => {
       //移动时绘制线
       //屏幕坐标转地形上坐标
       let cartesian = this.PositionUtils.getClickPosition(evt.endPosition, 2);
@@ -246,7 +243,7 @@ export default class Draw {
       }
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
-    this.handler.setInputAction(evt => {
+    this.handler.setInputAction((evt) => {
       //右击结束绘制
       if (!this._drawData) return;
       //屏幕坐标转地形上坐标
@@ -261,9 +258,7 @@ export default class Draw {
 
       //如果是测量返回测量结果，标绘返回实体
       if (measure) {
-        let distance = this.BaseFnUtils.getSpaceDistance(
-          polylineData.slice(polylineData.length - 2)
-        );
+        let distance = this.BaseFnUtils.getSpaceDistance(polylineData.slice(polylineData.length - 2));
         if (typeof callback == 'function') {
           callback(distance);
           /*销毁鼠标事件*/
@@ -398,7 +393,7 @@ export default class Draw {
     this._clean();
     this._createdToolTip('左击选择点位，右击结束！');
     this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
-    this.handler.setInputAction(evt => {
+    this.handler.setInputAction((evt) => {
       //开始绘制
       //屏幕坐标转地形上坐标
       let cartesian = this.PositionUtils.getClickPosition(evt.position, 2);
@@ -411,7 +406,7 @@ export default class Draw {
       this._createPoint(cartesian); // 绘制点
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
-    this.handler.setInputAction(evt => {
+    this.handler.setInputAction((evt) => {
       //移动时绘制线
       //屏幕坐标转地形上坐标
       let cartesian = this.PositionUtils.getClickPosition(evt.endPosition, 2);
@@ -426,9 +421,7 @@ export default class Draw {
           if (measure) {
             Label = this.viewer.entities.add({
               position: new Cesium.CallbackProperty(() => {
-                var polyPositions = this._drawData.polygon.hierarchy.getValue(
-                  Cesium.JulianDate.now()
-                ).positions;
+                var polyPositions = this._drawData.polygon.hierarchy.getValue(Cesium.JulianDate.now()).positions;
                 var polyCenter = Cesium.BoundingSphere.fromPoints(polyPositions).center;
                 return polyCenter;
               }, false),
@@ -453,7 +446,7 @@ export default class Draw {
       Label && (Label._label._text._value = this.BaseFnUtils.getArea(this._positions) + '平方米');
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
-    this.handler.setInputAction(evt => {
+    this.handler.setInputAction((evt) => {
       //右击结束绘制
       if (!this._drawData) return;
       //屏幕坐标转地形上坐标
@@ -501,7 +494,7 @@ export default class Draw {
     this._clean();
     this._createdToolTip('左击选择点位，右击结束！');
     this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
-    this.handler.setInputAction(evt => {
+    this.handler.setInputAction((evt) => {
       //开始绘制
       //屏幕坐标转地形上坐标
       let cartesian = this.PositionUtils.getClickPosition(evt.position, 2);
@@ -514,7 +507,7 @@ export default class Draw {
       this._createPoint(cartesian); // 绘制点
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
-    this.handler.setInputAction(evt => {
+    this.handler.setInputAction((evt) => {
       //移动时绘制线
       //屏幕坐标转地形上坐标
       let cartesian = this.PositionUtils.getClickPosition(evt.endPosition, 2);
@@ -533,7 +526,7 @@ export default class Draw {
       this._positions.push(cartesian);
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
-    this.handler.setInputAction(evt => {
+    this.handler.setInputAction((evt) => {
       //右击结束绘制
       if (!this._drawData) return;
       //屏幕坐标转地形上坐标
@@ -630,7 +623,7 @@ export default class Draw {
     this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
     // this.viewer.scene.globe.depthTestAgainstTerrain = true;
 
-    this.handler.setInputAction(evt => {
+    this.handler.setInputAction((evt) => {
       //开始绘制
       //屏幕坐标转地形上坐标
       let cartesian = this.PositionUtils.getClickPosition(evt.position, 2);
@@ -647,7 +640,7 @@ export default class Draw {
       }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
-    this.handler.setInputAction(evt => {
+    this.handler.setInputAction((evt) => {
       //移动时绘制线
       //屏幕坐标转地形上坐标
       let cartesian = this.PositionUtils.getClickPosition(evt.endPosition, 2);
@@ -666,8 +659,7 @@ export default class Draw {
       }
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
-    // eslint-disable-next-line no-unused-vars
-    this.handler.setInputAction(evt => {
+    this.handler.setInputAction((evt) => {
       //右击结束绘制
       if (!this._drawData) return;
       let polyline = this.loadCicle(this._positions, {});
@@ -722,7 +714,7 @@ export default class Draw {
     this._createdToolTip('左键点击选择起点！');
     this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
 
-    this.handler.setInputAction(evt => {
+    this.handler.setInputAction((evt) => {
       //开始绘制
       //屏幕坐标转地形上坐标
       let cartesian = this.PositionUtils.getClickPosition(evt.position, 2);
@@ -739,7 +731,7 @@ export default class Draw {
       }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
-    this.handler.setInputAction(evt => {
+    this.handler.setInputAction((evt) => {
       //移动时绘制线
       //屏幕坐标转地形上坐标
       let cartesian = this.PositionUtils.getClickPosition(evt.endPosition, 2);
@@ -758,8 +750,7 @@ export default class Draw {
       }
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
-    // eslint-disable-next-line no-unused-vars
-    this.handler.setInputAction(evt => {
+    this.handler.setInputAction((evt) => {
       //右击结束绘制
       if (!this._drawData) return;
       let Rectangle = this.loadRectangle(this._positions, {});
@@ -816,11 +807,7 @@ export default class Draw {
 
     let circleWave = this.viewer.entities.add({
       myData: options.myData,
-      position: Cesium.Cartesian3.fromDegrees(
-        options.position.lng,
-        options.position.lat,
-        options.position.height || 1
-      ),
+      position: Cesium.Cartesian3.fromDegrees(options.position.lng, options.position.lat, options.position.height || 1),
       billboard: {
         //图标
         image: options.imgUrl,
@@ -896,7 +883,7 @@ export default class Draw {
     }
 
     let pointDraged, leftDownFlag, pointIndex;
-    this.handler.setInputAction(event => {
+    this.handler.setInputAction((event) => {
       let et = this.viewer.scene.pick(event.position); //选取当前的entity
       if (et && et.id.isEditPoint) {
         pointDraged = et;
@@ -908,7 +895,7 @@ export default class Draw {
       }
     }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
 
-    this.handler.setInputAction(event => {
+    this.handler.setInputAction((event) => {
       if (leftDownFlag === true && pointDraged != null) {
         let ray = this.viewer.camera.getPickRay(event.endPosition);
         let cartesian = this.viewer.scene.globe.pick(ray, this.viewer.scene);
@@ -923,8 +910,8 @@ export default class Draw {
         positions[pointIndex] = cartesian;
       }
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-    // eslint-disable-next-line no-unused-vars
-    this.handler.setInputAction(event => {
+
+    this.handler.setInputAction((event) => {
       if (leftDownFlag && pointDraged != null) {
         leftDownFlag = false;
         this.viewer.scene.screenSpaceCameraController.enableRotate = true; //解锁相机

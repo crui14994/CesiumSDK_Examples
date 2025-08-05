@@ -5,7 +5,6 @@
  * @LastEditors: caorui 778943319@qq.com
  * @Description:
  */
-/*global Cesium viewer*/
 import { getContext } from '../context';
 class S3MTiles {
   constructor() {
@@ -34,7 +33,7 @@ class S3MTiles {
     let scene = this.viewer.scene;
     var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
     this.handler = handler;
-    handler.setInputAction(event => {
+    handler.setInputAction((event) => {
       const clickPoint = viewer.scene.pick(event.position);
       if (clickPoint && clickPoint.primitive && clickPoint.primitive.TilesType == 'S3M_Tiles') {
         callback && callback(clickPoint);

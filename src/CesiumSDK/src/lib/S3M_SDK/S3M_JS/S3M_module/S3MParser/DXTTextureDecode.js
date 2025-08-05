@@ -172,14 +172,8 @@ function DecompressImage565(rgb565, width, height, blocks) {
       // Note that we approximate 1/3 as 3/8 and 2/3 as 5/8 for
       // speed.  This also appears to be what the hardware DXT
       // decoder in many GPUs does :)
-      c[2] =
-        ((5 * r0 + 3 * r1) >> 3) |
-        (((5 * g0 + 3 * g1) >> 3) & 0x7e0) |
-        (((5 * b0 + 3 * b1) >> 3) & 0xf800);
-      c[3] =
-        ((5 * r1 + 3 * r0) >> 3) |
-        (((5 * g1 + 3 * g0) >> 3) & 0x7e0) |
-        (((5 * b1 + 3 * b0) >> 3) & 0xf800);
+      c[2] = ((5 * r0 + 3 * r1) >> 3) | (((5 * g0 + 3 * g1) >> 3) & 0x7e0) | (((5 * b0 + 3 * b1) >> 3) & 0xf800);
+      c[3] = ((5 * r1 + 3 * r0) >> 3) | (((5 * g1 + 3 * g0) >> 3) & 0x7e0) | (((5 * b1 + 3 * b0) >> 3) & 0xf800);
       m = blocks[i + 2];
       dstI = blockY * 4 * width + blockX * 4;
       dst[dstI] = c[m & 0x3];
@@ -261,7 +255,7 @@ function DecompressImage(rgba, width, height, blocks, flags) {
 
 function DXTTextureDecode(options) {}
 
-DXTTextureDecode.decode = function(out, width, height, block, format) {
+DXTTextureDecode.decode = function (out, width, height, block, format) {
   if (out == null || block == null || height == 0 || width == 0) {
     return;
   }

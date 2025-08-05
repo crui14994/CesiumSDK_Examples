@@ -7,7 +7,6 @@
  * @Description:
  *
  */
-/*global Cesium*/
 import MaterialProperty from '../MaterialProperty.js';
 
 Cesium.Material.CircleWaveType = 'CircleWave';
@@ -72,7 +71,7 @@ Cesium.Material._materialCache.addMaterial(Cesium.Material.CircleWaveType, {
 
         `,
   },
-  translucent: function(material) {
+  translucent: function (material) {
     return true;
   },
 });

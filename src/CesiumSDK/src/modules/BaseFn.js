@@ -5,7 +5,6 @@
  * @LastEditors: caorui 778943319@qq.com
  * @Description:
  */
-/*global Cesium*/
 import { getContext } from '../context';
 
 class BaseFn {
@@ -26,9 +25,7 @@ class BaseFn {
       var s = geodesic.surfaceDistance;
       //console.log(Math.sqrt(Math.pow(distance, 2) + Math.pow(endheight, 2)));
       //返回两点之间的距离
-      s = Math.sqrt(
-        Math.pow(s, 2) + Math.pow(point2cartographic.height - point1cartographic.height, 2)
-      );
+      s = Math.sqrt(Math.pow(s, 2) + Math.pow(point2cartographic.height - point1cartographic.height, 2));
       distance = distance + s;
     }
     return distance.toFixed(2);
@@ -97,7 +94,7 @@ class BaseFn {
   /**根据多个坐标点,计算中心点坐标 */
   getPointsCenter(pointsArr) {
     let points = [];
-    pointsArr.forEach(item => {
+    pointsArr.forEach((item) => {
       points.push(`${item[1]},${item[0]}`);
     });
     var point_num = points.length; //坐标点个数
@@ -135,7 +132,6 @@ class BaseFn {
    * @param imgConfig 其它配置
    */
   canvasToImage(icon, text, imgConfig) {
-    // eslint-disable-next-line no-unused-vars
     return new Promise((resolve, reject) => {
       let config = {
         iconWidth: 152,
@@ -181,8 +177,8 @@ class BaseFn {
    */
   computedRectangle(wgs84Arr, callback, extended = 0.0005) {
     let maxLng, minLng, maxLat, minLat;
-    let lngArr = wgs84Arr.map(i => Number(i.lng));
-    let latArr = wgs84Arr.map(i => Number(i.lat));
+    let lngArr = wgs84Arr.map((i) => Number(i.lng));
+    let latArr = wgs84Arr.map((i) => Number(i.lat));
 
     maxLng = Math.max.apply(null, lngArr);
     minLng = Math.min.apply(null, lngArr);
@@ -257,9 +253,7 @@ class BaseFn {
     const deltaLon = Cesium.Math.toRadians(pointB.lng - pointA.lng);
     // 计算偏航角
     const y = Math.sin(deltaLon) * Math.cos(lat2Rad);
-    const x =
-      Math.cos(lat1Rad) * Math.sin(lat2Rad) -
-      Math.sin(lat1Rad) * Math.cos(lat2Rad) * Math.cos(deltaLon);
+    const x = Math.cos(lat1Rad) * Math.sin(lat2Rad) - Math.sin(lat1Rad) * Math.cos(lat2Rad) * Math.cos(deltaLon);
     let heading = Math.atan2(y, x);
     // 将偏航角转换为度
     heading = Cesium.Math.toDegrees(heading);

@@ -7,7 +7,6 @@
  * @Description:
  *
  */
-/*global Cesium*/
 import MaterialProperty from '../MaterialProperty.js';
 import IMG from '../../../image/space_line.png';
 
@@ -46,7 +45,7 @@ Cesium.Material._materialCache.addMaterial(Cesium.Material.WallLineTrailType, {
         }
     `,
   },
-  translucent: function(material) {
+  translucent: function (material) {
     return true;
   },
 });

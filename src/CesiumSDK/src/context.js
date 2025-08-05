@@ -10,5 +10,5 @@ export const setContext = (viewer, CesiumMap) => {
 
 export const getContext = () => ({
   viewer: viewerInstance,
-  CesiumMap: cesiumMapInstance
+  CesiumMap: cesiumMapInstance,
 });

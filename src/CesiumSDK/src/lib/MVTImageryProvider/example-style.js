@@ -40,7 +40,7 @@ const getFillColor = () => {
 
   let FillColor = ['match', ['get', 'DLBM']];
   [plough, garden, woodland, constructionLand].forEach((pItem, pIndex) => {
-    pItem.forEach(item => {
+    pItem.forEach((item) => {
       switch (pIndex) {
         case 0:
           FillColor.push(...[item, 'rgba(255,255,0,1)']);

@@ -49,7 +49,7 @@ class MVTImageryProvider {
 
     this.mapboxRenderer.filterForZoom(zoom);
     const tilesSpec = [];
-    this.mapboxRenderer.getVisibleSources().forEach(s => {
+    this.mapboxRenderer.getVisibleSources().forEach((s) => {
       tilesSpec.push({
         source: s,
         z: zoom,
@@ -74,7 +74,7 @@ class MVTImageryProvider {
           destTop: 0,
         },
         tilesSpec,
-        err => {
+        (err) => {
           if (err) {
             switch (err) {
               case 'canceled':
@@ -101,7 +101,7 @@ class MVTImageryProvider {
   }
 
   pickFeatures(x, y, zoom, longitude, latitude) {
-    return this.requestImage(x, y, zoom, false).then(renderRef => {
+    return this.requestImage(x, y, zoom, false).then((renderRef) => {
       let targetSources = this.mapboxRenderer.getVisibleSources();
       targetSources = this.sourceFilter ? this.sourceFilter(targetSources) : targetSources;
 
@@ -110,7 +110,7 @@ class MVTImageryProvider {
       longitude = Cesium.Math.toDegrees(longitude);
       latitude = Cesium.Math.toDegrees(latitude);
 
-      targetSources.forEach(s => {
+      targetSources.forEach((s) => {
         queryResult.push({
           data: this.mapboxRenderer.queryRenderedFeatures({
             source: s,
@@ -135,9 +135,7 @@ class MVTImageryProvider {
 
   destroy() {
     this.mapboxRenderer._cancelAllPendingRenders();
-    Object.values(this.mapboxRenderer._style.sourceCaches).forEach(cache =>
-      cache._tileCache.reset()
-    );
+    Object.values(this.mapboxRenderer._style.sourceCaches).forEach((cache) => cache._tileCache.reset());
     this.mapboxRenderer._gl.getExtension('WEBGL_lose_context').loseContext();
   }
 }

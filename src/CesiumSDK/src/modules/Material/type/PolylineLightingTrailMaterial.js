@@ -7,7 +7,6 @@
  * @Description:
  *
  */
-/*global Cesium*/
 import MaterialProperty from '../MaterialProperty.js';
 import IMG from '../../../image/lighting.png';
 
@@ -44,7 +43,7 @@ Cesium.Material._materialCache.addMaterial(Cesium.Material.PolylineLightingTrail
         }
         `,
   },
-  translucent: function(material) {
+  translucent: function (material) {
     return true;
   },
 });

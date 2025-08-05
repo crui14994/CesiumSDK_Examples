@@ -7,7 +7,7 @@ function S3MCreateShaderProgramJob() {
   this.context = undefined;
 }
 
-S3MCreateShaderProgramJob.prototype.set = function(context, model) {
+S3MCreateShaderProgramJob.prototype.set = function (context, model) {
   this.model = model;
   this.context = context;
 };
@@ -24,7 +24,7 @@ function getExtension(gl, names) {
   return undefined;
 }
 
-S3MCreateShaderProgramJob.prototype.execute = function() {
+S3MCreateShaderProgramJob.prototype.execute = function () {
   const context = this.context;
   const model = this.model;
   const layer = model.layer;
@@ -36,10 +36,7 @@ S3MCreateShaderProgramJob.prototype.execute = function() {
   let vsNew = model.batchTable ? model.batchTable.getVertexShaderCallback()(vs) : vs;
 
   if (context.texturelod === undefined) {
-    context.texturelod = Cesium.defaultValue(
-      getExtension(context._gl, ['EXT_shader_texture_lod']),
-      false
-    );
+    context.texturelod = Cesium.defaultValue(getExtension(context._gl, ['EXT_shader_texture_lod']), false);
   }
 
   let vp = new Cesium.ShaderSource({
@@ -96,17 +93,11 @@ S3MCreateShaderProgramJob.prototype.execute = function() {
       vp.defines.push(ProgramDefines.COMPRESS_NORMAL);
     }
 
-    if (
-      (compressOptions & VertexCompressOption.SVC_VertexColor) ===
-      VertexCompressOption.SVC_VertexColor
-    ) {
+    if ((compressOptions & VertexCompressOption.SVC_VertexColor) === VertexCompressOption.SVC_VertexColor) {
       vp.defines.push(ProgramDefines.COMPRESS_COLOR);
     }
 
-    if (
-      (compressOptions & VertexCompressOption.SVC_TexutreCoord) ===
-      VertexCompressOption.SVC_TexutreCoord
-    ) {
+    if ((compressOptions & VertexCompressOption.SVC_TexutreCoord) === VertexCompressOption.SVC_TexutreCoord) {
       vp.defines.push(ProgramDefines.COMPRESS_TEXCOORD);
     }
   }

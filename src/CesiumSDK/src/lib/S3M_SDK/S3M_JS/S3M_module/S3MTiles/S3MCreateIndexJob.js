@@ -4,13 +4,13 @@ function S3MCreateIndexBufferJob() {
   this.index = 0;
 }
 
-S3MCreateIndexBufferJob.prototype.set = function(context, model, index) {
+S3MCreateIndexBufferJob.prototype.set = function (context, model, index) {
   this.model = model;
   this.context = context;
   this.index = index;
 };
 
-S3MCreateIndexBufferJob.prototype.execute = function() {
+S3MCreateIndexBufferJob.prototype.execute = function () {
   let context = this.context;
   let indexPackage = this.model.arrIndexPackage[this.index];
   let verticesCount = this.model.vertexPackage.verticesCount;
@@ -27,10 +27,7 @@ S3MCreateIndexBufferJob.prototype.execute = function() {
   }
 
   let indexDataType = Cesium.IndexDatatype.UNSIGNED_SHORT;
-  if (
-    (indexPackage.indexType === 1 || verticesCount >= Cesium.Math.SIXTY_FOUR_KILOBYTES) &&
-    context.elementIndexUint
-  ) {
+  if ((indexPackage.indexType === 1 || verticesCount >= Cesium.Math.SIXTY_FOUR_KILOBYTES) && context.elementIndexUint) {
     indexDataType = Cesium.IndexDatatype.UNSIGNED_INT;
   }
 

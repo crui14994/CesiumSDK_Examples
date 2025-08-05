@@ -27,22 +27,22 @@ function getOpaqueRenderState() {
 
 function getUniformMap(material, layer, ro) {
   return {
-    uGeoMatrix: function() {
+    uGeoMatrix: function () {
       return ro.geoMatrix;
     },
-    uInverseGeoMatrix: function() {
+    uInverseGeoMatrix: function () {
       return ro.invGeoMatrix;
     },
-    uTexture: function() {
+    uTexture: function () {
       return material.textures[0];
     },
-    uTexture0Width: function() {
+    uTexture0Width: function () {
       return material.textures[0].width;
     },
   };
 }
 
-S3MObliqueRenderEntity.prototype.createCommand = function() {
+S3MObliqueRenderEntity.prototype.createCommand = function () {
   if (
     Cesium.defined(this.colorCommand) ||
     this.vertexBufferToCreate.length !== 0 ||
@@ -89,7 +89,7 @@ S3MObliqueRenderEntity.prototype.createCommand = function() {
   this.ready = true;
 };
 
-S3MObliqueRenderEntity.prototype.update = function(frameState, layer) {
+S3MObliqueRenderEntity.prototype.update = function (frameState, layer) {
   if (!this.ready) {
     this.createBuffers(frameState);
     this.createShaderProgram(frameState);
@@ -101,15 +101,13 @@ S3MObliqueRenderEntity.prototype.update = function(frameState, layer) {
   frameState.commandList.push(this.colorCommand);
 };
 
-S3MObliqueRenderEntity.prototype.isDestroyed = function() {
+S3MObliqueRenderEntity.prototype.isDestroyed = function () {
   return false;
 };
 
-S3MObliqueRenderEntity.prototype.destroy = function() {
-  this.shaderProgram =
-    this.shaderProgram && !this.shaderProgram.isDestroyed() && this.shaderProgram.destroy();
-  this.vertexArray =
-    this.vertexArray && !this.vertexArray.isDestroyed() && this.vertexArray.destroy();
+S3MObliqueRenderEntity.prototype.destroy = function () {
+  this.shaderProgram = this.shaderProgram && !this.shaderProgram.isDestroyed() && this.shaderProgram.destroy();
+  this.vertexArray = this.vertexArray && !this.vertexArray.isDestroyed() && this.vertexArray.destroy();
   this.material = this.material && !this.material.isDestroyed() && this.material.destroy();
   this.colorCommand = undefined;
   this.vertexPackage = null;

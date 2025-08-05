@@ -26,14 +26,8 @@ function parseMaterial(context, content, tile) {
     for (let k = 0; k < len; k++) {
       let textureState = textureStates[k].textureunitstate;
       let textureCode = textureState.id;
-      let wrapS =
-        textureState.addressmode.u === 0
-          ? Cesium.TextureWrap.REPEAT
-          : Cesium.TextureWrap.CLAMP_TO_EDGE;
-      let wrapT =
-        textureState.addressmode.v === 0
-          ? Cesium.TextureWrap.REPEAT
-          : Cesium.TextureWrap.CLAMP_TO_EDGE;
+      let wrapS = textureState.addressmode.u === 0 ? Cesium.TextureWrap.REPEAT : Cesium.TextureWrap.CLAMP_TO_EDGE;
+      let wrapT = textureState.addressmode.v === 0 ? Cesium.TextureWrap.REPEAT : Cesium.TextureWrap.CLAMP_TO_EDGE;
       materialPass.texMatrix = Cesium.Matrix4.unpack(textureState.texmodmatrix);
       let textureInfo = content.texturePackage[textureCode];
       if (Cesium.defined(textureInfo) && textureInfo.arrayBufferView.byteLength > 0) {
@@ -46,8 +40,7 @@ function parseMaterial(context, content, tile) {
             texture = new DDSTexture(context, textureCode, textureInfo);
           } else {
             let isPowerOfTwo =
-              Cesium.Math.isPowerOfTwo(textureInfo.width) &&
-              Cesium.Math.isPowerOfTwo(textureInfo.height);
+              Cesium.Math.isPowerOfTwo(textureInfo.width) && Cesium.Math.isPowerOfTwo(textureInfo.height);
             texture = new Cesium.Texture({
               context: context,
               source: {
@@ -56,9 +49,7 @@ function parseMaterial(context, content, tile) {
                 arrayBufferView: textureInfo.arrayBufferView,
               },
               sampler: new Cesium.Sampler({
-                minificationFilter: isPowerOfTwo
-                  ? context._gl.LINEAR_MIPMAP_LINEAR
-                  : context._gl.LINEAR,
+                minificationFilter: isPowerOfTwo ? context._gl.LINEAR_MIPMAP_LINEAR : context._gl.LINEAR,
                 wrapS: wrapS,
                 wrapT: wrapT,
               }),
@@ -87,8 +78,7 @@ function calcBoundingVolumeForNormal(vertexPackage, modelMatrix) {
   let dim = positionAttr.componentsPerAttribute;
   let isCompress =
     Cesium.defined(vertexPackage.compressOptions) &&
-    (vertexPackage.compressOptions & VertexCompressOption.SVC_Vertex) ===
-      VertexCompressOption.SVC_Vertex;
+    (vertexPackage.compressOptions & VertexCompressOption.SVC_Vertex) === VertexCompressOption.SVC_Vertex;
   let normConstant = 1.0;
   let minVertex;
   let vertexTypedArray;
@@ -278,7 +268,7 @@ function parsePagelods(layer, content, materialTable) {
   return pagelods;
 }
 
-S3MContentParser.parse = function(layer, content, tile) {
+S3MContentParser.parse = function (layer, content, tile) {
   if (!Cesium.defined(content)) {
     return;
   }

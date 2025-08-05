@@ -5,7 +5,6 @@
  * @LastEditors: caorui 778943319@qq.com
  * @Description: 图层相关
  */
-/*global Cesium viewer*/
 import { getContext } from '../context';
 
 class Imagery {
@@ -96,7 +95,7 @@ class Imagery {
    */
   createGeojsonArea(geojson, bgColor = '#081122') {
     let arr = [];
-    geojson.features[0].geometry.coordinates[0][0].forEach(item => {
+    geojson.features[0].geometry.coordinates[0][0].forEach((item) => {
       arr.push(item[0]);
       arr.push(item[1]);
     });
@@ -112,9 +111,7 @@ class Imagery {
       new Cesium.GeometryInstance({
         geometry: geometry,
         attributes: {
-          color: Cesium.ColorGeometryInstanceAttribute.fromColor(
-            Cesium.Color.fromCssColorString(bgColor)
-          ),
+          color: Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.fromCssColorString(bgColor)),
         },
       })
     );
@@ -125,9 +122,7 @@ class Imagery {
             rectangle: Cesium.Rectangle.fromDegrees(left, down, right, up),
           }),
           attributes: {
-            color: Cesium.ColorGeometryInstanceAttribute.fromColor(
-              Cesium.Color.fromCssColorString(bgColor)
-            ),
+            color: Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.fromCssColorString(bgColor)),
           },
         })
       );
@@ -156,7 +151,7 @@ class Imagery {
   createOverlayArea(geojson, rgbaColor = 'rgba(0, 0, 0, 0.85)') {
     let holes = [];
 
-    geojson.features[0].geometry.coordinates.forEach(item => {
+    geojson.features[0].geometry.coordinates.forEach((item) => {
       holes.push({ positions: Cesium.Cartesian3.fromDegreesArray(item.flat(Infinity)) });
     });
     // 遮罩

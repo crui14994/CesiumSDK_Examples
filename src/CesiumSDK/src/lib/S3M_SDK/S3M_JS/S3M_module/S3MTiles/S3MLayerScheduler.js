@@ -59,18 +59,11 @@ function updateChildren(layer, tile, stack, frameState) {
     let minPriorityChild = children[minIndex];
     minPriorityChild.wasMinPriorityChild = true;
     let priorityHolder =
-      (tile.wasMinPriorityChild || tile.isRootTile) &&
-      minimumPriority <= tile.priorityHolder.foveatedFactor
+      (tile.wasMinPriorityChild || tile.isRootTile) && minimumPriority <= tile.priorityHolder.foveatedFactor
         ? tile.priorityHolder
         : tile;
-    priorityHolder.foveatedFactor = Math.min(
-      minPriorityChild.foveatedFactor,
-      priorityHolder.foveatedFactor
-    );
-    priorityHolder.distanceToCamera = Math.min(
-      minPriorityChild.distanceToCamera,
-      priorityHolder.distanceToCamera
-    );
+    priorityHolder.foveatedFactor = Math.min(minPriorityChild.foveatedFactor, priorityHolder.foveatedFactor);
+    priorityHolder.distanceToCamera = Math.min(minPriorityChild.distanceToCamera, priorityHolder.distanceToCamera);
 
     for (i = 0; i < length; ++i) {
       let child = children[i];
@@ -91,10 +84,7 @@ function selectTile(layer, tile, frameState) {
 }
 
 function loadTile(layer, tile, frameState) {
-  if (
-    tile.requestedFrame === frameState.frameNumber ||
-    tile.contentState !== ContentState.UNLOADED
-  ) {
+  if (tile.requestedFrame === frameState.frameNumber || tile.contentState !== ContentState.UNLOADED) {
     return;
   }
 
@@ -103,11 +93,7 @@ function loadTile(layer, tile, frameState) {
 }
 
 function processTile(layer, tile, frameState) {
-  if (
-    tile.processFrame === frameState.frameNumber ||
-    tile.contentState !== ContentState.READY ||
-    tile.renderable
-  ) {
+  if (tile.processFrame === frameState.frameNumber || tile.contentState !== ContentState.READY || tile.renderable) {
     return;
   }
 
@@ -138,24 +124,12 @@ function updateTileVisibility(frameState, layer, tile) {
 }
 
 function updateMinimumMaximumPriority(layer, tile) {
-  layer._maximumPriority.distance = Math.max(
-    tile.distanceToCamera,
-    layer._maximumPriority.distance
-  );
-  layer._minimumPriority.distance = Math.min(
-    tile.distanceToCamera,
-    layer._minimumPriority.distance
-  );
+  layer._maximumPriority.distance = Math.max(tile.distanceToCamera, layer._maximumPriority.distance);
+  layer._minimumPriority.distance = Math.min(tile.distanceToCamera, layer._minimumPriority.distance);
   layer._maximumPriority.depth = Math.max(tile.depth, layer._maximumPriority.depth);
   layer._minimumPriority.depth = Math.min(tile.depth, layer._minimumPriority.depth);
-  layer._maximumPriority.foveatedFactor = Math.max(
-    tile.foveatedFactor,
-    layer._maximumPriority.foveatedFactor
-  );
-  layer._minimumPriority.foveatedFactor = Math.min(
-    tile.foveatedFactor,
-    layer._minimumPriority.foveatedFactor
-  );
+  layer._maximumPriority.foveatedFactor = Math.max(tile.foveatedFactor, layer._maximumPriority.foveatedFactor);
+  layer._minimumPriority.foveatedFactor = Math.min(tile.foveatedFactor, layer._minimumPriority.foveatedFactor);
   layer._maximumPriority.pixel = Math.max(tile.pixel, layer._maximumPriority.pixel);
   layer._minimumPriority.pixel = Math.min(tile.pixel, layer._minimumPriority.pixel);
 }
@@ -228,7 +202,7 @@ function updatePriority(layer, frameState) {
   }
 }
 
-S3MLayerScheduler.prototype.schedule = function(layer, frameState) {
+S3MLayerScheduler.prototype.schedule = function (layer, frameState) {
   let stack = this._stack;
   selectRootTiles(layer, stack, frameState);
   traversal(layer, stack, frameState);

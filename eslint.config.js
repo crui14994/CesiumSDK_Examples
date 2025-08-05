@@ -13,7 +13,7 @@ import pluginVue from 'eslint-plugin-vue';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
-  globalIgnores(['**/dist/**', '**/public/**', '.prettier.config.cjs', '**/styles/**']),
+  globalIgnores(['**/dist/**', '**/public/**', '.prettier.config.cjs','**/lib/**', '**/styles/**']),
   {
     files: ['**/*.{js,mjs,cjs,vue}'],
     plugins: { js },
@@ -27,6 +27,7 @@ export default defineConfig([
         ...globals.node,
         // 添加自定义全局变量声明
         Cesium: 'readonly', // 只读全局变量
+        THREE: 'readonly', // 只读全局变量
         CM: 'writable', // 可写全局变量
         viewer: 'writable', // 可写全局变量
 

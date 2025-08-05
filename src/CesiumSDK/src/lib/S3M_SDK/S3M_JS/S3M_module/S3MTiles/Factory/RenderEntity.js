@@ -111,26 +111,25 @@ function createBatchTable(renderEntity, frameState) {
 
   let pickInfo = renderEntity.pickInfo;
   let pickIds = Object.keys(pickInfo);
-  let numberOfInstances =
-    renderEntity.instanceCount > 0 ? renderEntity.instanceCount : pickIds.length;
+  let numberOfInstances = renderEntity.instanceCount > 0 ? renderEntity.instanceCount : pickIds.length;
   renderEntity.batchTable = new Cesium.BatchTable(context, attributes, numberOfInstances);
 }
 
-RenderEntity.prototype.createBuffers = function(frameState) {
+RenderEntity.prototype.createBuffers = function (frameState) {
   createVertexBuffers(this, frameState);
   createIndexBuffers(this, frameState);
 };
 
-RenderEntity.prototype.createShaderProgram = function(frameState) {
+RenderEntity.prototype.createShaderProgram = function (frameState) {
   createShaderProgram(this, frameState);
 };
 
-RenderEntity.prototype.createBatchTable = function(frameState) {
+RenderEntity.prototype.createBatchTable = function (frameState) {
   createBatchTable(this, frameState);
 };
 
 let scratchPntCenter = new Cesium.Cartesian3();
-RenderEntity.prototype.createBoundingBoxForInstance = function() {
+RenderEntity.prototype.createBoundingBoxForInstance = function () {
   const vertexPackage = this.vertexPackage;
   if (
     !Cesium.defined(vertexPackage) ||
@@ -152,14 +151,14 @@ RenderEntity.prototype.createBoundingBoxForInstance = function() {
   vertexPackage.instanceBounds = undefined;
 };
 
-RenderEntity.prototype.initLayerSetting = function(layer) {
+RenderEntity.prototype.initLayerSetting = function (layer) {
   if (Object.keys(layer._objsOperationList).length > 0) {
     this.updateObjsOperation(layer._objsOperationList);
   }
 };
 
 let cartesian4Scratch = new Cesium.Cartesian4();
-RenderEntity.prototype.createPickIds = function() {
+RenderEntity.prototype.createPickIds = function () {
   const layer = this.layer;
   const context = layer.context;
   const pickInfo = this.pickInfo;
@@ -195,7 +194,7 @@ RenderEntity.prototype.createPickIds = function() {
       cartesian4Scratch.w = Cesium.Color.floatToByte(pickColor.alpha);
       let instanceIds = selInfo.instanceIds;
       if (this.instanceCount > 0) {
-        instanceIds.map(function(instanceId) {
+        instanceIds.map(function (instanceId) {
           batchTable.setBatchedAttribute(instanceId, 1, cartesian4Scratch);
         });
       } else {
@@ -208,7 +207,7 @@ RenderEntity.prototype.createPickIds = function() {
   this.pickInfo = undefined;
 };
 
-RenderEntity.prototype.updateBatchTableAttributes = function() {
+RenderEntity.prototype.updateBatchTableAttributes = function () {
   let ro = this;
 
   let idsOperationMap = this.idsOperationMap;
@@ -221,7 +220,7 @@ RenderEntity.prototype.updateBatchTableAttributes = function() {
     obj.dirty = false;
     if (this.instanceCount > 0) {
       if (Array.isArray(obj.instanceIds)) {
-        obj.instanceIds.map(function(instanceId) {
+        obj.instanceIds.map(function (instanceId) {
           ro.batchTable.setBatchedAttribute(instanceId, 0, obj.operationValue);
         });
       }
@@ -233,7 +232,7 @@ RenderEntity.prototype.updateBatchTableAttributes = function() {
   }
 };
 
-RenderEntity.prototype.updateObjsOperation = function(ids) {
+RenderEntity.prototype.updateObjsOperation = function (ids) {
   if (!this.ready || this.selectionInfoMap.length < 1) {
     return;
   }

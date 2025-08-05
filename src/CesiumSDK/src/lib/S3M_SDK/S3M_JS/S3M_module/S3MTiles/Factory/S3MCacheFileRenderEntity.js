@@ -42,38 +42,38 @@ function getTransparentRenderState() {
 
 function getUniformMap(material, layer, ro) {
   const uniformMap = {
-    uGeoMatrix: function() {
+    uGeoMatrix: function () {
       return ro.geoMatrix;
     },
-    uTexMatrix: function() {
+    uTexMatrix: function () {
       return material.texMatrix;
     },
-    uFillForeColor: function() {
+    uFillForeColor: function () {
       if (ro.useLineColor) {
         return layer.style3D.lineColor;
       }
 
       return layer.style3D.fillForeColor;
     },
-    uInverseGeoMatrix: function() {
+    uInverseGeoMatrix: function () {
       return ro.invGeoMatrix;
     },
-    uTexture: function() {
+    uTexture: function () {
       return material.textures[0];
     },
-    uTexture2: function() {
+    uTexture2: function () {
       return material.textures[1];
     },
-    uTexture0Width: function() {
+    uTexture0Width: function () {
       return material.textures[0].width;
     },
-    uTexture1Width: function() {
+    uTexture1Width: function () {
       return material.textures[1].width;
     },
-    uDiffuseColor: function() {
+    uDiffuseColor: function () {
       return material.diffuseColor;
     },
-    uSelectedColor: function() {
+    uSelectedColor: function () {
       return layer._selectedColor;
     },
   };
@@ -81,91 +81,88 @@ function getUniformMap(material, layer, ro) {
   const vertexPackage = ro.vertexPackage;
   const nCompressOptions = vertexPackage.compressOptions;
   if ((nCompressOptions & VertexCompressOption.SVC_Vertex) === VertexCompressOption.SVC_Vertex) {
-    uniformMap['decode_position_min'] = function() {
+    uniformMap['decode_position_min'] = function () {
       return vertexPackage.minVerticesValue;
     };
-    uniformMap['decode_position_normConstant'] = function() {
+    uniformMap['decode_position_normConstant'] = function () {
       return vertexPackage.vertCompressConstant;
     };
   }
 
   if ((nCompressOptions & VertexCompressOption.SVC_Normal) === VertexCompressOption.SVC_Normal) {
-    uniformMap['normal_rangeConstant'] = function() {
+    uniformMap['normal_rangeConstant'] = function () {
       return vertexPackage.normalRangeConstant;
     };
   }
 
-  if (
-    (nCompressOptions & VertexCompressOption.SVC_TexutreCoord) ===
-    VertexCompressOption.SVC_TexutreCoord
-  ) {
+  if ((nCompressOptions & VertexCompressOption.SVC_TexutreCoord) === VertexCompressOption.SVC_TexutreCoord) {
     if (vertexPackage.texCoordCompressConstant.length > 0) {
-      uniformMap['decode_texCoord0_min'] = function() {
+      uniformMap['decode_texCoord0_min'] = function () {
         return vertexPackage.minTexCoordValue[0];
       };
-      uniformMap['decode_texCoord0_normConstant'] = function() {
+      uniformMap['decode_texCoord0_normConstant'] = function () {
         return vertexPackage.texCoordCompressConstant[0];
       };
-      uniformMap['decode_texCoord0_vNormConstant'] = function() {
+      uniformMap['decode_texCoord0_vNormConstant'] = function () {
         return vertexPackage.texCoordCompressConstant[0];
       };
     }
     if (vertexPackage.texCoordCompressConstant.length > 1) {
-      uniformMap['decode_texCoord1_min'] = function() {
+      uniformMap['decode_texCoord1_min'] = function () {
         return vertexPackage.minTexCoordValue[1];
       };
-      uniformMap['decode_texCoord1_normConstant'] = function() {
+      uniformMap['decode_texCoord1_normConstant'] = function () {
         return vertexPackage.texCoordCompressConstant[1];
       };
-      uniformMap['decode_texCoord1_vNormConstant'] = function() {
+      uniformMap['decode_texCoord1_vNormConstant'] = function () {
         return vertexPackage.texCoordCompressConstant[1];
       };
     }
     if (vertexPackage.texCoordCompressConstant.length > 2) {
-      uniformMap['decode_texCoord2_min'] = function() {
+      uniformMap['decode_texCoord2_min'] = function () {
         return vertexPackage.minTexCoordValue[2];
       };
-      uniformMap['decode_texCoord2_normConstant'] = function() {
+      uniformMap['decode_texCoord2_normConstant'] = function () {
         return vertexPackage.texCoordCompressConstant[2];
       };
     }
     if (vertexPackage.texCoordCompressConstant.length > 3) {
-      uniformMap['decode_texCoord3_min'] = function() {
+      uniformMap['decode_texCoord3_min'] = function () {
         return vertexPackage.minTexCoordValue[3];
       };
-      uniformMap['decode_texCoord3_normConstant'] = function() {
+      uniformMap['decode_texCoord3_normConstant'] = function () {
         return vertexPackage.texCoordCompressConstant[3];
       };
     }
     if (vertexPackage.texCoordCompressConstant.length > 4) {
-      uniformMap['decode_texCoord4_min'] = function() {
+      uniformMap['decode_texCoord4_min'] = function () {
         return vertexPackage.minTexCoordValue[4];
       };
-      uniformMap['decode_texCoord4_normConstant'] = function() {
+      uniformMap['decode_texCoord4_normConstant'] = function () {
         return vertexPackage.texCoordCompressConstant[4];
       };
     }
     if (vertexPackage.texCoordCompressConstant.length > 5) {
-      uniformMap['decode_texCoord5_min'] = function() {
+      uniformMap['decode_texCoord5_min'] = function () {
         return vertexPackage.minTexCoordValue[5];
       };
-      uniformMap['decode_texCoord5_normConstant'] = function() {
+      uniformMap['decode_texCoord5_normConstant'] = function () {
         return vertexPackage.texCoordCompressConstant[5];
       };
     }
     if (vertexPackage.texCoordCompressConstant.length > 6) {
-      uniformMap['decode_texCoord6_min'] = function() {
+      uniformMap['decode_texCoord6_min'] = function () {
         return vertexPackage.minTexCoordValue[6];
       };
-      uniformMap['decode_texCoord6_normConstant'] = function() {
+      uniformMap['decode_texCoord6_normConstant'] = function () {
         return vertexPackage.texCoordCompressConstant[6];
       };
     }
     if (vertexPackage.texCoordCompressConstant.length > 7) {
-      uniformMap['decode_texCoord7_min'] = function() {
+      uniformMap['decode_texCoord7_min'] = function () {
         return vertexPackage.minTexCoordValue[7];
       };
-      uniformMap['decode_texCoord7_normConstant'] = function() {
+      uniformMap['decode_texCoord7_normConstant'] = function () {
         return vertexPackage.texCoordCompressConstant[7];
       };
     }
@@ -174,7 +171,7 @@ function getUniformMap(material, layer, ro) {
   return uniformMap;
 }
 
-S3MCacheFileRenderEntity.prototype.createCommand = function() {
+S3MCacheFileRenderEntity.prototype.createCommand = function () {
   if (
     Cesium.defined(this.colorCommand) ||
     this.vertexBufferToCreate.length !== 0 ||
@@ -227,9 +224,7 @@ S3MCacheFileRenderEntity.prototype.createCommand = function() {
     vertexArray: this.vertexArray,
     shaderProgram: this.shaderProgram,
     pass: material.bTransparentSorting ? Cesium.Pass.TRANSLUCENT : Cesium.Pass.OPAQUE,
-    renderState: material.bTransparentSorting
-      ? getTransparentRenderState()
-      : getOpaqueRenderState(),
+    renderState: material.bTransparentSorting ? getTransparentRenderState() : getOpaqueRenderState(),
     instanceCount: vertexPackage.instanceCount,
   });
 
@@ -247,7 +242,7 @@ S3MCacheFileRenderEntity.prototype.createCommand = function() {
   this.ready = true;
 };
 
-S3MCacheFileRenderEntity.prototype.update = function(frameState, layer) {
+S3MCacheFileRenderEntity.prototype.update = function (frameState, layer) {
   if (!this.ready) {
     this.createBatchTable(frameState);
     this.createPickIds();
@@ -270,15 +265,13 @@ S3MCacheFileRenderEntity.prototype.update = function(frameState, layer) {
   frameState.commandList.push(this.colorCommand);
 };
 
-S3MCacheFileRenderEntity.prototype.isDestroyed = function() {
+S3MCacheFileRenderEntity.prototype.isDestroyed = function () {
   return false;
 };
 
-S3MCacheFileRenderEntity.prototype.destroy = function() {
-  this.shaderProgram =
-    this.shaderProgram && !this.shaderProgram.isDestroyed() && this.shaderProgram.destroy();
-  this.vertexArray =
-    this.vertexArray && !this.vertexArray.isDestroyed() && this.vertexArray.destroy();
+S3MCacheFileRenderEntity.prototype.destroy = function () {
+  this.shaderProgram = this.shaderProgram && !this.shaderProgram.isDestroyed() && this.shaderProgram.destroy();
+  this.vertexArray = this.vertexArray && !this.vertexArray.isDestroyed() && this.vertexArray.destroy();
   this.material = this.material && !this.material.isDestroyed() && this.material.destroy();
   this.batchTable = this.batchTable && !this.batchTable.isDestroyed() && this.batchTable.destroy();
   this.colorCommand = undefined;

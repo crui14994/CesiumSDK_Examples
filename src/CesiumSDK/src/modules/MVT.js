@@ -5,7 +5,6 @@
  * @LastEditors: Please set LastEditors
  * @Description:
  */
-/*global Cesium*/
 import { getContext } from '../context';
 
 class MVT {
@@ -50,7 +49,7 @@ class MVT {
    * 在切换加载MVT时一定要销毁之前的图层，否则会报错
    */
   destoryMvtAll() {
-    this.providerArr.forEach(item => {
+    this.providerArr.forEach((item) => {
       this.viewer.imageryLayers.remove(item.imageryLayer, true);
       item.imageryLayer = null;
       item.provider.destroy();
@@ -62,8 +61,8 @@ class MVT {
    * @param {Array} nameArr 字符串数组，要销毁的图层
    */
   destoryMVT(nameArr) {
-    nameArr.forEach(item => {
-      let i = this.providerArr.findIndex(pItem => pItem.name == item);
+    nameArr.forEach((item) => {
+      let i = this.providerArr.findIndex((pItem) => pItem.name == item);
       if (i != -1) {
         this.viewer.imageryLayers.remove(this.providerArr[i].imageryLayer, true);
         this.providerArr[i].imageryLayer = null;

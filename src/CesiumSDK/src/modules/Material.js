@@ -5,7 +5,6 @@
  * @LastEditors: caorui 778943319@qq.com
  * @Description:
  */
-/*global Cesium*/
 
 import PolylineImageTrailMaterialProperty from './Material/type/PolylineImageTrailMaterial';
 import PolylineFlowMaterialProperty from './Material/type/PolylineFlowMaterial';
@@ -24,7 +23,7 @@ class Material {
    * @params  repeat 重复规则
    * @params  direction 动画方向
    */
-  PolylineImageTrailMaterial = options => new PolylineImageTrailMaterialProperty(options);
+  PolylineImageTrailMaterial = (options) => new PolylineImageTrailMaterialProperty(options);
 
   /**颜色流动线材质
    * @params  color 颜色
@@ -32,13 +31,13 @@ class Material {
    * @params  percent 比例
    * @params  gradient 透明程度
    */
-  PolylineFlowMaterial = options => new PolylineFlowMaterialProperty(options);
+  PolylineFlowMaterial = (options) => new PolylineFlowMaterialProperty(options);
 
   /**发光流动线材质
    * @params  color 颜色
    * @params  speed 速度
    */
-  PolylineLightingTrailMaterial = options => new PolylineLightingTrailMaterialProperty(options);
+  PolylineLightingTrailMaterial = (options) => new PolylineLightingTrailMaterialProperty(options);
 
   /**图片轨迹墙体材质
    * @params  color 颜色
@@ -47,14 +46,14 @@ class Material {
    * @params  repeat 重复规则
    * @params  direction 动画方向
    */
-  WallImageTrailMaterial = options => new WallImageTrailMaterialProperty(options);
+  WallImageTrailMaterial = (options) => new WallImageTrailMaterialProperty(options);
 
   /**轨迹墙体材质
    * @params  color 颜色
    * @params  speed 速度
    * @params  direction 动画方向
    */
-  WallTrailMaterial = options => new WallTrailMaterialProperty(options);
+  WallTrailMaterial = (options) => new WallTrailMaterialProperty(options);
 
   /**线条轨迹墙体材质
    * @params  color 颜色
@@ -62,7 +61,7 @@ class Material {
    * @params  repeat 重复规则
    * @params  direction 动画方向
    */
-  WallLineTrailMaterial = options => new WallLineTrailMaterialProperty(options);
+  WallLineTrailMaterial = (options) => new WallLineTrailMaterialProperty(options);
 
   /**波纹圆材质
    * @params  color 颜色
@@ -70,7 +69,7 @@ class Material {
    * @params  count 波浪数量
    * @params  gradient 渐变曲率
    */
-  CircleWaveMaterial = options => new CircleWaveMaterialProperty(options);
+  CircleWaveMaterial = (options) => new CircleWaveMaterialProperty(options);
 }
 
 export default Material;

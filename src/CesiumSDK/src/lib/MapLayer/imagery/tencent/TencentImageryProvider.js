@@ -5,8 +5,7 @@
 
 const IMG_URL = '//p{s}.map.gtimg.com/sateTiles/{z}/{sx}/{sy}/{x}_{reverseY}.jpg?version=400';
 
-const ELEC_URL =
-  '//rt{s}.map.gtimg.com/tile?z={z}&x={x}&y={reverseY}&styleid={style}&scene=0&version=347';
+const ELEC_URL = '//rt{s}.map.gtimg.com/tile?z={z}&x={x}&y={reverseY}&styleid={style}&scene=0&version=347';
 
 class TencentImageryProvider extends Cesium.UrlTemplateImageryProvider {
   constructor(options = {}) {

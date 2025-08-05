@@ -17,7 +17,7 @@ function EchartsLayer(viewer) {
 
 Object.defineProperties(EchartsLayer.prototype, {
   chart: {
-    get: function() {
+    get: function () {
       return this._chart;
     },
   },
@@ -27,36 +27,36 @@ function registerMap(layer) {
   if (!Cesium.defined(echarts)) {
     throw new Cesium.DeveloperError('echarts is undefined.');
   }
-  echarts.registerCoordinateSystem('GLMap', getCoordinateSystem(layer._viewer)),
+  (echarts.registerCoordinateSystem('GLMap', getCoordinateSystem(layer._viewer)),
     echarts.registerAction(
       {
         type: 'GLMapRoam',
         event: 'GLMapRoam',
         update: 'updateLayout',
       },
-      // eslint-disable-next-line no-unused-vars
-      function(t, e) {}
+
+      function (t, e) {}
     ),
     echarts.extendComponentModel({
       type: 'GLMap',
       defaultOption: { roam: !1 },
-    });
+    }));
   echarts.extendComponentView({
     type: 'GLMap',
-    init: function(t, e) {
+    init: function (t, e) {
       this.api = e;
       layer._viewer.scene.postRender.addEventListener(this.moveHandler, this);
     },
-    // eslint-disable-next-line no-unused-vars
-    moveHandler: function(t, e) {
+
+    moveHandler: function (t, e) {
       this.api.dispatchAction({
         type: 'GLMapRoam',
       });
     },
-    // eslint-disable-next-line no-unused-vars
-    render: function(t, e, i) {},
-    // eslint-disable-next-line no-unused-vars
-    dispose: function(t) {
+
+    render: function (t, e, i) {},
+
+    dispose: function (t) {
       layer._viewer.scene.postRender.removeEventListener(this.moveHandler, this);
     },
   });
@@ -80,7 +80,7 @@ function createChart(layer) {
 }
 
 function resize(layer) {
-  window.onresize = function() {
+  window.onresize = function () {
     var scene = layer._viewer.scene;
     layer._echartsContainer.style.width = scene.canvas.style.width + 'px';
     layer._echartsContainer.style.height = scene.canvas.style.height + 'px';
@@ -88,11 +88,11 @@ function resize(layer) {
   };
 }
 
-EchartsLayer.prototype.isDestroyed = function() {
+EchartsLayer.prototype.isDestroyed = function () {
   return false;
 };
 
-EchartsLayer.prototype.destroy = function() {
+EchartsLayer.prototype.destroy = function () {
   if (this._echartsContainer) {
     this._viewer.container.removeChild(this._echartsContainer);
     this._echartsContainer = undefined;
@@ -118,11 +118,11 @@ function getCoordinateSystem(viewer) {
 
   GLMapCoordSys.prototype.dimensions = ['lng', 'lat'];
 
-  GLMapCoordSys.prototype.setMapOffset = function(mapOffset) {
+  GLMapCoordSys.prototype.setMapOffset = function (mapOffset) {
     this._mapOffset = mapOffset;
   };
 
-  GLMapCoordSys.prototype.dataToPoint = function(data) {
+  GLMapCoordSys.prototype.dataToPoint = function (data) {
     var e = [0, 0],
       i = Cesium.Cartesian3.fromDegrees(data[0], data[1]);
     if (!i) return e;
@@ -132,13 +132,12 @@ function getCoordinateSystem(viewer) {
     }
     var n = viewer.scene.cartesianToCanvasCoordinates(i);
     if (!n) return e;
-    return Cesium.Cartesian3.angleBetween(viewer.scene.camera.position, i) <
-      Cesium.Math.toRadians(75)
+    return Cesium.Cartesian3.angleBetween(viewer.scene.camera.position, i) < Cesium.Math.toRadians(75)
       ? [n.x - this._mapOffset[0], n.y - this._mapOffset[1]]
       : e;
   };
 
-  GLMapCoordSys.prototype.pointToData = function(pt) {
+  GLMapCoordSys.prototype.pointToData = function (pt) {
     var mapOffset = this._mapOffset;
     var cart = viewer.scene.pickPosition(
       new Cartesian2(pt[0] + mapOffset[0], pt[1] + mapOffset[1]),
@@ -148,25 +147,25 @@ function getCoordinateSystem(viewer) {
     return [Cesium.Math.toDegrees(carto.longitude), Cesium.Math.toDegrees(carto.latitude)];
   };
 
-  GLMapCoordSys.prototype.getViewRect = function() {
+  GLMapCoordSys.prototype.getViewRect = function () {
     var api = this._api;
     return new echarts.graphic.BoundingRect(0, 0, api.getWidth(), api.getHeight());
   };
 
-  GLMapCoordSys.prototype.getRoamTransform = function() {
+  GLMapCoordSys.prototype.getRoamTransform = function () {
     return echarts.matrix.create();
   };
 
   GLMapCoordSys.dimensions = GLMapCoordSys.prototype.dimensions;
 
-  GLMapCoordSys.create = function(ecModel, api) {
+  GLMapCoordSys.create = function (ecModel, api) {
     var coordSys;
-    ecModel.eachComponent('GLMap', function(GLMapModel) {
+    ecModel.eachComponent('GLMap', function (GLMapModel) {
       coordSys = new GLMapCoordSys(api);
       coordSys.setMapOffset(GLMapModel.__mapOffset || [0, 0]);
       GLMapModel.coordinateSystem = coordSys;
     });
-    ecModel.eachSeries(function(seriesModel) {
+    ecModel.eachSeries(function (seriesModel) {
       if (seriesModel.get('coordinateSystem') === 'GLMap') {
         seriesModel.coordinateSystem = coordSys;
       }

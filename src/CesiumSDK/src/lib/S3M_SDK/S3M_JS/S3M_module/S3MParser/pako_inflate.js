@@ -1,8 +1,8 @@
 var tmp = {};
 
-/* pako 1.0.4 nodeca/pako */ (function(f) {
+/* pako 1.0.4 nodeca/pako */ (function (f) {
   tmp = f();
-})(function() {
+})(function () {
   var define, module, exports;
   return (function e(t, n, r) {
     function s(o, u) {
@@ -17,7 +17,7 @@ var tmp = {};
         var l = (n[o] = { exports: {} });
         t[o][0].call(
           l.exports,
-          function(e) {
+          function (e) {
             var n = t[o][1][e];
             return s(n ? n : e);
           },
@@ -37,7 +37,7 @@ var tmp = {};
   })(
     {
       1: [
-        function(require, module, exports) {
+        function (require, module, exports) {
           'use strict';
 
           var TYPED_OK =
@@ -45,7 +45,7 @@ var tmp = {};
             typeof Uint16Array !== 'undefined' &&
             typeof Int32Array !== 'undefined';
 
-          exports.assign = function(obj /*from1, from2, from3, ...*/) {
+          exports.assign = function (obj /*from1, from2, from3, ...*/) {
             var sources = Array.prototype.slice.call(arguments, 1);
             while (sources.length) {
               var source = sources.shift();
@@ -68,7 +68,7 @@ var tmp = {};
           };
 
           // reduce buffer size, avoiding mem copy
-          exports.shrinkBuf = function(buf, size) {
+          exports.shrinkBuf = function (buf, size) {
             if (buf.length === size) {
               return buf;
             }
@@ -80,7 +80,7 @@ var tmp = {};
           };
 
           var fnTyped = {
-            arraySet: function(dest, src, src_offs, len, dest_offs) {
+            arraySet: function (dest, src, src_offs, len, dest_offs) {
               if (src.subarray && dest.subarray) {
                 dest.set(src.subarray(src_offs, src_offs + len), dest_offs);
                 return;
@@ -91,7 +91,7 @@ var tmp = {};
               }
             },
             // Join array of chunks to single array.
-            flattenChunks: function(chunks) {
+            flattenChunks: function (chunks) {
               var i, l, len, pos, chunk, result;
 
               // calculate data length
@@ -114,20 +114,20 @@ var tmp = {};
           };
 
           var fnUntyped = {
-            arraySet: function(dest, src, src_offs, len, dest_offs) {
+            arraySet: function (dest, src, src_offs, len, dest_offs) {
               for (var i = 0; i < len; i++) {
                 dest[dest_offs + i] = src[src_offs + i];
               }
             },
             // Join array of chunks to single array.
-            flattenChunks: function(chunks) {
+            flattenChunks: function (chunks) {
               return [].concat.apply([], chunks);
             },
           };
 
           // Enable/Disable typed arrays use, for testing
           //
-          exports.setTyped = function(on) {
+          exports.setTyped = function (on) {
             if (on) {
               exports.Buf8 = Uint8Array;
               exports.Buf16 = Uint16Array;
@@ -146,7 +146,7 @@ var tmp = {};
         {},
       ],
       2: [
-        function(require, module, exports) {
+        function (require, module, exports) {
           // String encode/decode helpers
           'use strict';
 
@@ -176,13 +176,12 @@ var tmp = {};
           // because max possible codepoint is 0x10ffff
           var _utf8len = new utils.Buf8(256);
           for (var q = 0; q < 256; q++) {
-            _utf8len[q] =
-              q >= 252 ? 6 : q >= 248 ? 5 : q >= 240 ? 4 : q >= 224 ? 3 : q >= 192 ? 2 : 1;
+            _utf8len[q] = q >= 252 ? 6 : q >= 248 ? 5 : q >= 240 ? 4 : q >= 224 ? 3 : q >= 192 ? 2 : 1;
           }
           _utf8len[254] = _utf8len[254] = 1; // Invalid sequence start
 
           // convert string to array (typed, when possible)
-          exports.string2buf = function(str) {
+          exports.string2buf = function (str) {
             var buf,
               c,
               c2,
@@ -258,12 +257,12 @@ var tmp = {};
           }
 
           // Convert byte array to binary string
-          exports.buf2binstring = function(buf) {
+          exports.buf2binstring = function (buf) {
             return buf2binstring(buf, buf.length);
           };
 
           // Convert binary string (typed, when possible)
-          exports.binstring2buf = function(str) {
+          exports.binstring2buf = function (str) {
             var buf = new utils.Buf8(str.length);
             for (var i = 0, len = buf.length; i < len; i++) {
               buf[i] = str.charCodeAt(i);
@@ -272,7 +271,7 @@ var tmp = {};
           };
 
           // convert array to string
-          exports.buf2string = function(buf, max) {
+          exports.buf2string = function (buf, max) {
             var i, out, c, c_len;
             var len = max || buf.length;
 
@@ -329,7 +328,7 @@ var tmp = {};
           //
           // buf[] - utf8 bytes array
           // max   - length limit (mandatory);
-          exports.utf8border = function(buf, max) {
+          exports.utf8border = function (buf, max) {
             var pos;
 
             max = max || buf.length;
@@ -361,7 +360,7 @@ var tmp = {};
         { './common': 1 },
       ],
       3: [
-        function(require, module, exports) {
+        function (require, module, exports) {
           'use strict';
 
           // Note: adler32 takes 12% for level 0 and 2% for level 6.
@@ -397,7 +396,7 @@ var tmp = {};
         {},
       ],
       4: [
-        function(require, module, exports) {
+        function (require, module, exports) {
           'use strict';
 
           module.exports = {
@@ -449,7 +448,7 @@ var tmp = {};
         {},
       ],
       5: [
-        function(require, module, exports) {
+        function (require, module, exports) {
           'use strict';
 
           // Note: we can't get significant speed boost here.
@@ -493,7 +492,7 @@ var tmp = {};
         {},
       ],
       6: [
-        function(require, module, exports) {
+        function (require, module, exports) {
           'use strict';
 
           function GZheader() {
@@ -537,7 +536,7 @@ var tmp = {};
         {},
       ],
       7: [
-        function(require, module, exports) {
+        function (require, module, exports) {
           'use strict';
 
           // See state defs from inflate.js
@@ -871,7 +870,7 @@ var tmp = {};
         {},
       ],
       8: [
-        function(require, module, exports) {
+        function (require, module, exports) {
           'use strict';
 
           var utils = require('../utils/common');
@@ -959,9 +958,7 @@ var tmp = {};
           var DEF_WBITS = MAX_WBITS;
 
           function zswap32(q) {
-            return (
-              ((q >>> 24) & 0xff) + ((q >>> 8) & 0xff00) + ((q & 0xff00) << 8) + ((q & 0xff) << 24)
-            );
+            return ((q >>> 24) & 0xff) + ((q >>> 8) & 0xff00) + ((q & 0xff00) << 8) + ((q & 0xff) << 24);
           }
 
           function InflateState() {
@@ -1853,8 +1850,7 @@ var tmp = {};
                 case CODELENS:
                   while (state.have < state.nlen + state.ndist) {
                     for (;;) {
-                      here =
-                        state.lencode[hold & ((1 << state.lenbits) - 1)]; /*BITS(state.lenbits)*/
+                      here = state.lencode[hold & ((1 << state.lenbits) - 1)]; /*BITS(state.lenbits)*/
                       here_bits = here >>> 24;
                       here_op = (here >>> 16) & 0xff;
                       here_val = here & 0xffff;
@@ -1979,16 +1975,7 @@ var tmp = {};
                   state.lenbits = 9;
 
                   opts = { bits: state.lenbits };
-                  ret = inflate_table(
-                    LENS,
-                    state.lens,
-                    0,
-                    state.nlen,
-                    state.lencode,
-                    0,
-                    state.work,
-                    opts
-                  );
+                  ret = inflate_table(LENS, state.lens, 0, state.nlen, state.lencode, 0, state.work, opts);
                   // We have separate tables & no pointers. 2 commented lines below not needed.
                   // state.next_index = opts.table_index;
                   state.lenbits = opts.bits;
@@ -2005,16 +1992,7 @@ var tmp = {};
                   // Switch to use dynamic table
                   state.distcode = state.distdyn;
                   opts = { bits: state.distbits };
-                  ret = inflate_table(
-                    DISTS,
-                    state.lens,
-                    state.nlen,
-                    state.ndist,
-                    state.distcode,
-                    0,
-                    state.work,
-                    opts
-                  );
+                  ret = inflate_table(DISTS, state.lens, state.nlen, state.ndist, state.distcode, 0, state.work, opts);
                   // We have separate tables & no pointers. 2 commented lines below not needed.
                   // state.next_index = opts.table_index;
                   state.distbits = opts.bits;
@@ -2088,9 +2066,7 @@ var tmp = {};
                       here =
                         state.lencode[
                           last_val +
-                            ((hold &
-                              ((1 << (last_bits + last_op)) - 1)) /*BITS(last.bits + last.op)*/ >>
-                              last_bits)
+                            ((hold & ((1 << (last_bits + last_op)) - 1)) /*BITS(last.bits + last.op)*/ >> last_bits)
                         ];
                       here_bits = here >>> 24;
                       here_op = (here >>> 16) & 0xff;
@@ -2167,8 +2143,7 @@ var tmp = {};
                 /* falls through */
                 case DIST:
                   for (;;) {
-                    here =
-                      state.distcode[hold & ((1 << state.distbits) - 1)]; /*BITS(state.distbits)*/
+                    here = state.distcode[hold & ((1 << state.distbits) - 1)]; /*BITS(state.distbits)*/
                     here_bits = here >>> 24;
                     here_op = (here >>> 16) & 0xff;
                     here_val = here & 0xffff;
@@ -2193,9 +2168,7 @@ var tmp = {};
                       here =
                         state.distcode[
                           last_val +
-                            ((hold &
-                              ((1 << (last_bits + last_op)) - 1)) /*BITS(last.bits + last.op)*/ >>
-                              last_bits)
+                            ((hold & ((1 << (last_bits + last_op)) - 1)) /*BITS(last.bits + last.op)*/ >> last_bits)
                         ];
                       here_bits = here >>> 24;
                       here_op = (here >>> 16) & 0xff;
@@ -2427,9 +2400,7 @@ var tmp = {};
 
             if (
               state.wsize ||
-              (_out !== strm.avail_out &&
-                state.mode < BAD &&
-                (state.mode < CHECK || flush !== Z_FINISH))
+              (_out !== strm.avail_out && state.mode < BAD && (state.mode < CHECK || flush !== Z_FINISH))
             ) {
               if (updatewindow(strm, strm.output, strm.next_out, _out - strm.avail_out)) {
                 state.mode = MEM;
@@ -2550,7 +2521,7 @@ var tmp = {};
         { '../utils/common': 1, './adler32': 3, './crc32': 5, './inffast': 7, './inftrees': 9 },
       ],
       9: [
-        function(require, module, exports) {
+        function (require, module, exports) {
           'use strict';
 
           var utils = require('../utils/common');
@@ -2566,156 +2537,29 @@ var tmp = {};
 
           var lbase = [
             /* Length codes 257..285 base */
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            13,
-            15,
-            17,
-            19,
-            23,
-            27,
-            31,
-            35,
-            43,
-            51,
-            59,
-            67,
-            83,
-            99,
-            115,
-            131,
-            163,
-            195,
-            227,
-            258,
-            0,
-            0,
+            3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195,
+            227, 258, 0, 0,
           ];
 
           var lext = [
             /* Length codes 257..285 extra */
-            16,
-            16,
-            16,
-            16,
-            16,
-            16,
-            16,
-            16,
-            17,
-            17,
-            17,
-            17,
-            18,
-            18,
-            18,
-            18,
-            19,
-            19,
-            19,
-            19,
-            20,
-            20,
-            20,
-            20,
-            21,
-            21,
-            21,
-            21,
-            16,
-            72,
-            78,
+            16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 18, 18, 18, 18, 19, 19, 19, 19, 20, 20, 20, 20, 21, 21, 21,
+            21, 16, 72, 78,
           ];
 
           var dbase = [
             /* Distance codes 0..29 base */
-            1,
-            2,
-            3,
-            4,
-            5,
-            7,
-            9,
-            13,
-            17,
-            25,
-            33,
-            49,
-            65,
-            97,
-            129,
-            193,
-            257,
-            385,
-            513,
-            769,
-            1025,
-            1537,
-            2049,
-            3073,
-            4097,
-            6145,
-            8193,
-            12289,
-            16385,
-            24577,
-            0,
-            0,
+            1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193, 257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097,
+            6145, 8193, 12289, 16385, 24577, 0, 0,
           ];
 
           var dext = [
             /* Distance codes 0..29 extra */
-            16,
-            16,
-            16,
-            16,
-            17,
-            17,
-            18,
-            18,
-            19,
-            19,
-            20,
-            20,
-            21,
-            21,
-            22,
-            22,
-            23,
-            23,
-            24,
-            24,
-            25,
-            25,
-            26,
-            26,
-            27,
-            27,
-            28,
-            28,
-            29,
-            29,
-            64,
-            64,
+            16, 16, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 23, 24, 24, 25, 25, 26, 26, 27, 27, 28,
+            28, 29, 29, 64, 64,
           ];
 
-          module.exports = function inflate_table(
-            type,
-            lens,
-            lens_index,
-            codes,
-            table,
-            table_index,
-            work,
-            opts
-          ) {
+          module.exports = function inflate_table(type, lens, lens_index, codes, table, table_index, work, opts) {
             var bits = opts.bits;
             //here = opts.here; /* table entry for duplication */
 
@@ -2931,8 +2775,7 @@ var tmp = {};
               min = fill; /* save offset to next table */
               do {
                 fill -= incr;
-                table[next + (huff >> drop) + fill] =
-                  (here_bits << 24) | (here_op << 16) | here_val | 0;
+                table[next + (huff >> drop) + fill] = (here_bits << 24) | (here_op << 16) | here_val | 0;
               } while (fill !== 0);
 
               /* backwards increment the len-bit code huff */
@@ -2980,10 +2823,7 @@ var tmp = {};
 
                 /* check for enough space */
                 used += 1 << curr;
-                if (
-                  (type === LENS && used > ENOUGH_LENS) ||
-                  (type === DISTS && used > ENOUGH_DISTS)
-                ) {
+                if ((type === LENS && used > ENOUGH_LENS) || (type === DISTS && used > ENOUGH_DISTS)) {
                   return 1;
                 }
 
@@ -3015,7 +2855,7 @@ var tmp = {};
         { '../utils/common': 1 },
       ],
       10: [
-        function(require, module, exports) {
+        function (require, module, exports) {
           'use strict';
 
           module.exports = {
@@ -3033,7 +2873,7 @@ var tmp = {};
         {},
       ],
       11: [
-        function(require, module, exports) {
+        function (require, module, exports) {
           'use strict';
 
           function ZStream() {
@@ -3066,7 +2906,7 @@ var tmp = {};
         {},
       ],
       '/lib/inflate.js': [
-        function(require, module, exports) {
+        function (require, module, exports) {
           'use strict';
 
           var zlib_inflate = require('./zlib/inflate');
@@ -3242,7 +3082,7 @@ var tmp = {};
            * push(chunk, true);  // push last chunk
            * ```
            **/
-          Inflate.prototype.push = function(data, mode) {
+          Inflate.prototype.push = function (data, mode) {
             var strm = this.strm;
             var chunkSize = this.options.chunkSize;
             var dictionary = this.options.dictionary;
@@ -3374,7 +3214,7 @@ var tmp = {};
            * By default, stores data blocks in `chunks[]` property and glue
            * those in `onEnd`. Override this handler, if you need another behaviour.
            **/
-          Inflate.prototype.onData = function(chunk) {
+          Inflate.prototype.onData = function (chunk) {
             this.chunks.push(chunk);
           };
 
@@ -3388,7 +3228,7 @@ var tmp = {};
            * or if an error happened. By default - join collected chunks,
            * free memory and fill `results` / `err` properties.
            **/
-          Inflate.prototype.onEnd = function(status) {
+          Inflate.prototype.onEnd = function (status) {
             // On success - join
             if (status === c.Z_OK) {
               if (this.options.to === 'string') {

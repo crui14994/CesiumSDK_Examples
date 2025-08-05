@@ -9,18 +9,18 @@
  */
 import { setContext } from './context.js';
 
-import Viewer from './modules/Viewer.js';
-import Imagery from './modules/Imagery.js';
-import Animation from './modules/Animation.js';
-import Roaming from './modules/Roaming.js';
-import BaseFn from './modules/BaseFn.js';
-import Entity from './modules/Entity.js';
-import Position from './modules/Position.js';
-import Popup from './modules/Popup.js';
-import Draw from './modules/Draw.js';
-import MVT from './modules/MVT.js';
-import S3MTiles from './modules/S3MTiles.js';
-import CesiumThree from './modules/CesiumThree.js';
+import Viewer from './modules/Viewer';
+import Imagery from './modules/Imagery';
+import Animation from './modules/Animation';
+import Roaming from './modules/Roaming';
+import BaseFn from './modules/BaseFn';
+import Entity from './modules/Entity';
+import Position from './modules/Position';
+import Popup from './modules/Popup';
+import Draw from './modules/Draw';
+import MVT from './modules/MVT';
+import S3MTiles from './modules/S3MTiles';
+import CesiumThree from './modules/CesiumThree';
 import Material from './modules/Material.js';
 
 import './styles/index.css';
@@ -47,7 +47,7 @@ class CesiumMap {
     // 设置全局上下文
     setContext(this._viewer, CesiumMap);
 
-     // 后续模块可以直接使用 getContext 获取 viewer 和 CesiumMap
+    // 后续模块可以直接使用 getContext 获取 viewer 和 CesiumMap
     this.Animation = new Animation();
     this.Roaming = new Roaming();
     this.Imagery = new Imagery();
@@ -62,7 +62,6 @@ class CesiumMap {
     //下面几个对象需要在使用的时候手动new初始化一下
     this.MVT = MVT;
     this.S3MTiles = S3MTiles;
-
   }
 }
 

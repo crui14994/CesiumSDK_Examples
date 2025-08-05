@@ -25,7 +25,7 @@ function DDSTexture(context, id, options) {
   }
 }
 
-DDSTexture.prototype.init = function() {
+DDSTexture.prototype.init = function () {
   let gl = this.context._gl;
   if (!this._texture) {
     this._texture = gl.createTexture();
@@ -43,38 +43,16 @@ DDSTexture.prototype.init = function() {
   let texHeight = this.height;
   let bMipMap = validateMipmap(this.arrayBufferView, internalFormat, texWidth, texHeight);
   do {
-    let levelSize = Cesium.PixelFormat.compressedTextureSizeInBytes(
-      internalFormat,
-      texWidth,
-      texHeight
-    );
+    let levelSize = Cesium.PixelFormat.compressedTextureSizeInBytes(internalFormat, texWidth, texHeight);
     let subArrayBuffer = new Uint8Array(
       this.arrayBufferView.buffer,
       this.arrayBufferView.byteOffset + offset,
       levelSize
     );
     if (internalFormat === NOCOMPRESSED_RGBA) {
-      gl.texImage2D(
-        gl.TEXTURE_2D,
-        i++,
-        gl.RGBA,
-        texWidth,
-        texHeight,
-        0,
-        gl.RGBA,
-        gl.UNSIGNED_BYTE,
-        subArrayBuffer
-      );
+      gl.texImage2D(gl.TEXTURE_2D, i++, gl.RGBA, texWidth, texHeight, 0, gl.RGBA, gl.UNSIGNED_BYTE, subArrayBuffer);
     } else {
-      gl.compressedTexImage2D(
-        gl.TEXTURE_2D,
-        i++,
-        internalFormat,
-        texWidth,
-        texHeight,
-        0,
-        subArrayBuffer
-      );
+      gl.compressedTexImage2D(gl.TEXTURE_2D, i++, internalFormat, texWidth, texHeight, 0, subArrayBuffer);
     }
     texWidth = Math.max(texWidth >> 1, 1);
     texHeight = Math.max(texHeight >> 1, 1);
@@ -91,11 +69,7 @@ DDSTexture.prototype.init = function() {
 
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, this.wrapS);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, this.wrapT);
-  gl.texParameteri(
-    this._target,
-    this.context._textureFilterAnisotropic.TEXTURE_MAX_ANISOTROPY_EXT,
-    1
-  );
+  gl.texParameteri(this._target, this.context._textureFilterAnisotropic.TEXTURE_MAX_ANISOTROPY_EXT, 1);
 
   gl.bindTexture(gl.TEXTURE_2D, null);
   this.arrayBufferView = undefined;
@@ -123,11 +97,11 @@ function validateMipmap(buffer, pixelFormat, width, height) {
   return totalBytes === len;
 }
 
-DDSTexture.prototype.isDestroyed = function() {
+DDSTexture.prototype.isDestroyed = function () {
   return false;
 };
 
-DDSTexture.prototype.destroy = function() {
+DDSTexture.prototype.destroy = function () {
   let gl = this.context._gl;
   gl.deleteTexture(this._texture);
   this._texture = null;

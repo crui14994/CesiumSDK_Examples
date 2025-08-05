@@ -5,7 +5,6 @@
  * @LastEditors: Please set LastEditors
  * @Description:
  */
-/*global Cesium*/
 import { getContext } from '../context';
 
 import Position from './Position';
@@ -64,7 +63,7 @@ class Animation {
     _viewer.clock.shouldAnimate = true;
     _viewer.clock.multiplier = 100;
     var previousTime = _viewer.clock.currentTime.secondsOfDay;
-    this._icrf = function() {
+    this._icrf = function () {
       var spinRate = 1;
       var currentTime = _viewer.clock.currentTime.secondsOfDay;
       var delta = (currentTime - previousTime) / 1000;
@@ -145,10 +144,7 @@ class Animation {
       let initialHeading = viewer.camera.heading;
       let Exection = function TimeExecution() {
         // 当前已经过去的时间，单位s
-        let delTime = Cesium.JulianDate.secondsDifference(
-          viewer.clock.currentTime,
-          viewer.clock.startTime
-        );
+        let delTime = Cesium.JulianDate.secondsDifference(viewer.clock.currentTime, viewer.clock.startTime);
         let heading = Cesium.Math.toRadians(delTime * angle) + initialHeading;
         viewer.scene.camera.setView({
           destination: position, // 点的坐标

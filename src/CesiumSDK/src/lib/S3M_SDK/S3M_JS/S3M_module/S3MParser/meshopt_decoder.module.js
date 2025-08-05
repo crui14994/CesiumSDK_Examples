@@ -1,6 +1,6 @@
 // This file is part of meshoptimizer library and is distributed under the terms of MIT License.
 // Copyright (C) 2016-2021, by Arseny Kapoulkine (arseny.kapoulkine@gmail.com)
-var MeshoptDecoder = (function() {
+var MeshoptDecoder = (function () {
   'use strict';
 
   // Built with clang version 11.0.0 (https://github.com/llvm/llvm-project 176249bd6732a8044d457092ed932768724a6f06)
@@ -12,121 +12,15 @@ var MeshoptDecoder = (function() {
 
   // Uses bulk-memory and simd extensions
   var detector = new Uint8Array([
-    0,
-    97,
-    115,
-    109,
-    1,
-    0,
-    0,
-    0,
-    1,
-    4,
-    1,
-    96,
-    0,
-    0,
-    3,
-    3,
-    2,
-    0,
-    0,
-    5,
-    3,
-    1,
-    0,
-    1,
-    12,
-    1,
-    0,
-    10,
-    22,
-    2,
-    12,
-    0,
-    65,
-    0,
-    65,
-    0,
-    65,
-    0,
-    252,
-    10,
-    0,
-    0,
-    11,
-    7,
-    0,
-    65,
-    0,
-    253,
-    15,
-    26,
-    11,
+    0, 97, 115, 109, 1, 0, 0, 0, 1, 4, 1, 96, 0, 0, 3, 3, 2, 0, 0, 5, 3, 1, 0, 1, 12, 1, 0, 10, 22, 2, 12, 0, 65, 0, 65,
+    0, 65, 0, 252, 10, 0, 0, 11, 7, 0, 65, 0, 253, 15, 26, 11,
   ]);
 
   // Used to unpack wasm
   var wasmpack = new Uint8Array([
-    32,
-    0,
-    65,
-    2,
-    1,
-    106,
-    34,
-    33,
-    3,
-    128,
-    11,
-    4,
-    13,
-    64,
-    6,
-    253,
-    10,
-    7,
-    15,
-    116,
-    127,
-    5,
-    8,
-    12,
-    40,
-    16,
-    19,
-    54,
-    20,
-    9,
-    27,
-    255,
-    113,
-    17,
-    42,
-    67,
-    24,
-    23,
-    146,
-    148,
-    18,
-    14,
-    22,
-    45,
-    70,
-    69,
-    56,
-    114,
-    101,
-    21,
-    25,
-    63,
-    75,
-    136,
-    108,
-    28,
-    118,
-    29,
-    73,
-    115,
+    32, 0, 65, 2, 1, 106, 34, 33, 3, 128, 11, 4, 13, 64, 6, 253, 10, 7, 15, 116, 127, 5, 8, 12, 40, 16, 19, 54, 20, 9,
+    27, 255, 113, 17, 42, 67, 24, 23, 146, 148, 18, 14, 22, 45, 70, 69, 56, 114, 101, 21, 25, 63, 75, 136, 108, 28, 118,
+    29, 73, 115,
   ]);
 
   if (typeof WebAssembly !== 'object') {
@@ -144,7 +38,7 @@ var MeshoptDecoder = (function() {
 
   var instance;
 
-  var promise = WebAssembly.instantiate(unpack(wasm), {}).then(function(result) {
+  var promise = WebAssembly.instantiate(unpack(wasm), {}).then(function (result) {
     instance = result.instance;
     instance.exports.__wasm_call_ctors();
   });
@@ -207,7 +101,7 @@ var MeshoptDecoder = (function() {
   return {
     ready: promise,
     supported: true,
-    decodeVertexBuffer: function(target, count, size, source, filter) {
+    decodeVertexBuffer: function (target, count, size, source, filter) {
       decode(
         instance.exports.meshopt_decodeVertexBuffer,
         target,
@@ -217,21 +111,14 @@ var MeshoptDecoder = (function() {
         instance.exports[filters[filter]]
       );
     },
-    decodeIndexBuffer: function(target, count, size, source) {
+    decodeIndexBuffer: function (target, count, size, source) {
       decode(instance.exports.meshopt_decodeIndexBuffer, target, count, size, source);
     },
-    decodeIndexSequence: function(target, count, size, source) {
+    decodeIndexSequence: function (target, count, size, source) {
       decode(instance.exports.meshopt_decodeIndexSequence, target, count, size, source);
     },
-    decodeGltfBuffer: function(target, count, size, source, mode, filter) {
-      decode(
-        instance.exports[decoders[mode]],
-        target,
-        count,
-        size,
-        source,
-        instance.exports[filters[filter]]
-      );
+    decodeGltfBuffer: function (target, count, size, source, mode, filter) {
+      decode(instance.exports[decoders[mode]], target, count, size, source, instance.exports[filters[filter]]);
     },
   };
 })();

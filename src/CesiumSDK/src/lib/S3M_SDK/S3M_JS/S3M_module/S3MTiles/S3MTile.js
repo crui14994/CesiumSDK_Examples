@@ -56,7 +56,7 @@ function S3MTile(layer, parent, boundingVolume, fileName, rangeData, rangeMode) 
 
 Object.defineProperties(S3MTile.prototype, {
   renderable: {
-    get: function() {
+    get: function () {
       let renderEntities = this.renderEntities;
       let len = renderEntities.length;
       if (len === 0) {
@@ -100,10 +100,7 @@ function getUrl(fileName, layer) {
     '/rest/realspace' +
     afterRealspace +
     'data/path/' +
-    fileName
-      .replace(/^\.*/, '')
-      .replace(/^\//, '')
-      .replace(/\/$/, '')
+    fileName.replace(/^\.*/, '').replace(/^\//, '').replace(/\/$/, '')
   );
 }
 
@@ -140,7 +137,7 @@ function createBoundingBox(box, transform) {
   return new Cesium.TileBoundingSphere(center, radius);
 }
 
-S3MTile.prototype.createBoundingVolume = function(parameter, transform) {
+S3MTile.prototype.createBoundingVolume = function (parameter, transform) {
   if (Cesium.defined(parameter.sphere)) {
     return createSphere(parameter.sphere, transform);
   } else if (Cesium.defined(parameter.box)) {
@@ -150,7 +147,7 @@ S3MTile.prototype.createBoundingVolume = function(parameter, transform) {
   return undefined;
 };
 
-S3MTile.prototype.canTraverse = function() {
+S3MTile.prototype.canTraverse = function () {
   if (this.children.length === 0 || this.isLeafTile) {
     return false;
   }
@@ -166,7 +163,7 @@ function getBoundingVolume(tile, frameState) {
   return tile.boundingVolume;
 }
 
-S3MTile.prototype.getPixel = function(frameState) {
+S3MTile.prototype.getPixel = function (frameState) {
   const tileBoundingVolume = this.boundingVolume;
   let boundingVolume = tileBoundingVolume.boundingSphere;
   let radius = boundingVolume.radius;
@@ -179,7 +176,7 @@ S3MTile.prototype.getPixel = function(frameState) {
   return (lamat * radius) / distance;
 };
 
-S3MTile.prototype.getGeometryError = function(frameState) {
+S3MTile.prototype.getGeometryError = function (frameState) {
   const camera = frameState.camera;
   const height = this.layer.context.drawingBufferHeight;
   const geometricError = this.lodRangeData;
@@ -187,30 +184,23 @@ S3MTile.prototype.getGeometryError = function(frameState) {
   return (geometricError * height) / (distance * camera.frustum.sseDenominator);
 };
 
-S3MTile.prototype.distanceToTile = function(frameState) {
+S3MTile.prototype.distanceToTile = function (frameState) {
   let boundingVolume = getBoundingVolume(this, frameState);
   return boundingVolume.distanceToCamera(frameState);
 };
 
 let scratchToTileCenter = new Cesium.Cartesian3();
 
-S3MTile.prototype.distanceToTileCenter = function(frameState) {
+S3MTile.prototype.distanceToTileCenter = function (frameState) {
   const tileBoundingVolume = getBoundingVolume(this, frameState);
   const boundingVolume = tileBoundingVolume.boundingVolume;
-  const toCenter = Cesium.Cartesian3.subtract(
-    boundingVolume.center,
-    frameState.camera.positionWC,
-    scratchToTileCenter
-  );
+  const toCenter = Cesium.Cartesian3.subtract(boundingVolume.center, frameState.camera.positionWC, scratchToTileCenter);
   return Cesium.Cartesian3.dot(frameState.camera.directionWC, toCenter);
 };
 
-S3MTile.prototype.visibility = function(frameState, parentVisibilityPlaneMask) {
+S3MTile.prototype.visibility = function (frameState, parentVisibilityPlaneMask) {
   let boundingVolume = getBoundingVolume(this, frameState);
-  return frameState.cullingVolume.computeVisibilityWithPlaneMask(
-    boundingVolume,
-    parentVisibilityPlaneMask
-  );
+  return frameState.cullingVolume.computeVisibilityWithPlaneMask(boundingVolume, parentVisibilityPlaneMask);
 };
 
 let scratchCartesian = new Cesium.Cartesian3();
@@ -224,47 +214,23 @@ function priorityDeferred(tile, frameState) {
     tile.centerZDepth,
     scratchCartesian
   );
-  let closestPointOnLine = Cesium.Cartesian3.add(
-    camera.positionWC,
-    scaledCameraDirection,
-    scratchCartesian
-  );
-  let toLine = Cesium.Cartesian3.subtract(
-    closestPointOnLine,
-    boundingVolume.center,
-    scratchCartesian
-  );
+  let closestPointOnLine = Cesium.Cartesian3.add(camera.positionWC, scaledCameraDirection, scratchCartesian);
+  let toLine = Cesium.Cartesian3.subtract(closestPointOnLine, boundingVolume.center, scratchCartesian);
   let distanceToCenterLine = Cesium.Cartesian3.magnitude(toLine);
   let notTouchingSphere = distanceToCenterLine > radius;
   if (notTouchingSphere) {
     let toLineNormalized = Cesium.Cartesian3.normalize(toLine, scratchCartesian);
-    let scaledToLine = Cesium.Cartesian3.multiplyByScalar(
-      toLineNormalized,
-      radius,
-      scratchCartesian
-    );
-    let closestOnSphere = Cesium.Cartesian3.add(
-      boundingVolume.center,
-      scaledToLine,
-      scratchCartesian
-    );
-    let toClosestOnSphere = Cesium.Cartesian3.subtract(
-      closestOnSphere,
-      camera.positionWC,
-      scratchCartesian
-    );
-    let toClosestOnSphereNormalize = Cesium.Cartesian3.normalize(
-      toClosestOnSphere,
-      scratchCartesian
-    );
-    tile.foveatedFactor =
-      1.0 - Math.abs(Cesium.Cartesian3.dot(camera.directionWC, toClosestOnSphereNormalize));
+    let scaledToLine = Cesium.Cartesian3.multiplyByScalar(toLineNormalized, radius, scratchCartesian);
+    let closestOnSphere = Cesium.Cartesian3.add(boundingVolume.center, scaledToLine, scratchCartesian);
+    let toClosestOnSphere = Cesium.Cartesian3.subtract(closestOnSphere, camera.positionWC, scratchCartesian);
+    let toClosestOnSphereNormalize = Cesium.Cartesian3.normalize(toClosestOnSphere, scratchCartesian);
+    tile.foveatedFactor = 1.0 - Math.abs(Cesium.Cartesian3.dot(camera.directionWC, toClosestOnSphereNormalize));
   } else {
     tile.foveatedFactor = 0.0;
   }
 }
 
-S3MTile.prototype.updateVisibility = function(frameState, layer) {
+S3MTile.prototype.updateVisibility = function (frameState, layer) {
   let parent = this.parent;
   let parentVisibilityPlaneMask = Cesium.defined(parent)
     ? parent.visibilityPlaneMask
@@ -282,13 +248,13 @@ S3MTile.prototype.updateVisibility = function(frameState, layer) {
 };
 
 function createPriorityFunction(tile) {
-  return function() {
+  return function () {
     return tile.priority;
   };
 }
 
 function getContentFailedFunction(tile) {
-  return function(error) {
+  return function (error) {
     tile.contentState = ContentState.FAILED;
     tile.contentReadyPromise.reject(error);
   };
@@ -353,7 +319,7 @@ function contentReadyFunction(layer, tile, arrayBuffer) {
   tile.contentReadyPromise.resolve(content);
 }
 
-S3MTile.prototype.requestContent = function() {
+S3MTile.prototype.requestContent = function () {
   let that = this;
   let layer = this.layer;
 
@@ -381,7 +347,7 @@ S3MTile.prototype.requestContent = function() {
   let contentFailedFunction = getContentFailedFunction(this);
 
   promise
-    .then(function(arrayBuffer) {
+    .then(function (arrayBuffer) {
       if (that.isDestroyed()) {
         contentFailedFunction();
         return;
@@ -389,7 +355,7 @@ S3MTile.prototype.requestContent = function() {
 
       contentReadyFunction(layer, that, arrayBuffer);
     })
-    .catch(function(error) {
+    .catch(function (error) {
       if (request.state === Cesium.RequestState.CANCELLED) {
         that.contentState = ContentState.UNLOADED;
         return;
@@ -411,7 +377,7 @@ function isolateDigits(normalizedValue, numberOfDigits, leftShift) {
   return integer * Math.pow(10, leftShift);
 }
 
-S3MTile.prototype.updatePriority = function(layer, frameState) {
+S3MTile.prototype.updatePriority = function (layer, frameState) {
   let minimumPriority = layer._minimumPriority;
   let maximumPriority = layer._maximumPriority;
   let leftShift = 4;
@@ -425,11 +391,7 @@ S3MTile.prototype.updatePriority = function(layer, frameState) {
   let foveatedDigits = isolateDigits(normalizedFoveatedFactor, digitsCount, leftShift);
 
   leftShift = 8;
-  let normalizedPixel = priorityNormalizeAndClamp(
-    this.pixel,
-    minimumPriority.pixel,
-    maximumPriority.pixel
-  );
+  let normalizedPixel = priorityNormalizeAndClamp(this.pixel, minimumPriority.pixel, maximumPriority.pixel);
   let pixelDigits = isolateDigits(1.0 - normalizedPixel, digitsCount, leftShift);
 
   leftShift = 0;
@@ -442,13 +404,13 @@ S3MTile.prototype.updatePriority = function(layer, frameState) {
   this.priority = foveatedDigits + pixelDigits + distanceDigit;
 };
 
-S3MTile.prototype.update = function(frameState, layer) {
+S3MTile.prototype.update = function (frameState, layer) {
   for (let i = 0, j = this.renderEntities.length; i < j; i++) {
     this.renderEntities[i].update(frameState, layer);
   }
 };
 
-S3MTile.prototype.free = function() {
+S3MTile.prototype.free = function () {
   this.contentState = ContentState.UNLOADED;
   this.request = undefined;
   this.cacheNode = undefined;
@@ -463,11 +425,11 @@ S3MTile.prototype.free = function() {
   this.children.length = 0;
 };
 
-S3MTile.prototype.isDestroyed = function() {
+S3MTile.prototype.isDestroyed = function () {
   return false;
 };
 
-S3MTile.prototype.destroy = function() {
+S3MTile.prototype.destroy = function () {
   this.free();
   return Cesium.destroyObject(this);
 };

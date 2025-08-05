@@ -7,7 +7,6 @@
  * @Description:
  *
  */
-/*global Cesium*/
 import MaterialProperty from '../MaterialProperty.js';
 import IMG from '../../../image/fence.png';
 
@@ -47,7 +46,7 @@ Cesium.Material._materialCache.addMaterial(Cesium.Material.WallTrailType, {
         }
     `,
   },
-  translucent: function(material) {
+  translucent: function (material) {
     return true;
   },
 });

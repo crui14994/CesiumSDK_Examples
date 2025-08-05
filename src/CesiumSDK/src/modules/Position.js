@@ -5,7 +5,6 @@
  * @LastEditors: caorui 778943319@qq.com
  * @Description:
  */
-/*global Cesium*/
 import { getContext } from '../context';
 export default class Position {
   constructor() {
@@ -66,10 +65,7 @@ export default class Position {
     let position;
     if (type == 1) {
       //当前点击视线与椭球面相交处的坐标，其中ellipsoid是当前地球使用的椭球对象
-      position = this.viewer.scene.camera.pickEllipsoid(
-        eventPosition,
-        this.viewer.scene.globe.ellipsoid
-      );
+      position = this.viewer.scene.camera.pickEllipsoid(eventPosition, this.viewer.scene.globe.ellipsoid);
     } else if (type == 2) {
       //只能求交于地形，不包括模型、倾斜摄影表面，能获取加载地形后的坐标，pick(ray, scene, result) → Cartesian3|undefined
       let ray = this.viewer.camera.getPickRay(eventPosition);
@@ -92,9 +88,9 @@ export default class Position {
    */
   getHeigthByLonLat(lng, lat) {
     var positions = Cesium.Cartographic.fromDegrees(lng, lat);
-    // eslint-disable-next-line no-unused-vars
+
     return new Promise((resolve, reject) => {
-      Cesium.sampleTerrain(this.viewer.terrainProvider, 13, [positions]).then(updatedPositions => {
+      Cesium.sampleTerrain(this.viewer.terrainProvider, 13, [positions]).then((updatedPositions) => {
         resolve(updatedPositions[0].height);
       });
     });
@@ -104,12 +100,12 @@ export default class Position {
    * @return {*}
    */
   getHeigthByArr(positions) {
-    positions = positions.map(item => {
+    positions = positions.map((item) => {
       return Cesium.Cartographic.fromDegrees(item.lng, item.lat);
     });
-    // eslint-disable-next-line no-unused-vars
+
     return new Promise((resolve, reject) => {
-      Cesium.sampleTerrain(this.viewer.terrainProvider, 13, positions).then(updatedPositions => {
+      Cesium.sampleTerrain(this.viewer.terrainProvider, 13, positions).then((updatedPositions) => {
         resolve(updatedPositions);
       });
     });
@@ -140,12 +136,7 @@ export default class Position {
    */
   transformWGS84ToCartesian(position) {
     return position
-      ? Cesium.Cartesian3.fromDegrees(
-          position.lng,
-          position.lat,
-          position.height,
-          Cesium.Ellipsoid.WGS84
-        )
+      ? Cesium.Cartesian3.fromDegrees(position.lng, position.lat, position.height, Cesium.Ellipsoid.WGS84)
       : Cesium.Cartesian3.ZERO;
   }
 
@@ -164,7 +155,7 @@ export default class Position {
    * @return {*}
    */
   transformCartesianArrayToWGS84Array(cartesianArr) {
-    return cartesianArr ? cartesianArr.map(item => this.transformCartesianToWGS84(item)) : [];
+    return cartesianArr ? cartesianArr.map((item) => this.transformCartesianToWGS84(item)) : [];
   }
 
   /**屏幕坐标转84坐标(纬度坐标)
@@ -189,13 +180,8 @@ export default class Position {
    */
   transformWGS84ArrayToCartesianArray(WGS84Arr) {
     return WGS84Arr
-      ? WGS84Arr.map(item =>
-          Cesium.Cartesian3.fromDegrees(
-            item.lng,
-            item.lat,
-            item.height || 0,
-            Cesium.Ellipsoid.WGS84
-          )
+      ? WGS84Arr.map((item) =>
+          Cesium.Cartesian3.fromDegrees(item.lng, item.lat, item.height || 0, Cesium.Ellipsoid.WGS84)
         )
       : [];
   }
@@ -206,9 +192,6 @@ export default class Position {
    */
   transformWGS84ToWindow(position) {
     let scene = this.viewer.scene;
-    return Cesium.SceneTransforms.wgs84ToWindowCoordinates(
-      scene,
-      this.transformWGS84ToCartesian(position)
-    );
+    return Cesium.SceneTransforms.wgs84ToWindowCoordinates(scene, this.transformWGS84ToCartesian(position));
   }
 }

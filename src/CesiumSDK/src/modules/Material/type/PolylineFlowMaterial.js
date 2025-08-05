@@ -7,7 +7,6 @@
  * @Description:
  *
  */
-/*global Cesium*/
 import MaterialProperty from '../MaterialProperty.js';
 
 Cesium.Material.PolylineFlowType = 'PolylineFlow';
@@ -37,7 +36,7 @@ Cesium.Material._materialCache.addMaterial(Cesium.Material.PolylineFlowType, {
             return material;
           }`,
   },
-  translucent: function(material) {
+  translucent: function (material) {
     return true;
   },
 });

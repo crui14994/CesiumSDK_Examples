@@ -4,13 +4,13 @@ function S3MCreateVertexJob() {
   this.index = undefined;
 }
 
-S3MCreateVertexJob.prototype.set = function(context, model, index) {
+S3MCreateVertexJob.prototype.set = function (context, model, index) {
   this.context = context;
   this.model = model;
   this.index = index;
 };
 
-S3MCreateVertexJob.prototype.execute = function() {
+S3MCreateVertexJob.prototype.execute = function () {
   let context = this.context;
   let index = this.index;
   let vertexPackage = this.model.vertexPackage;

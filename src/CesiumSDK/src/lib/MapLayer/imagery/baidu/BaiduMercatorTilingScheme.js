@@ -10,7 +10,7 @@ class BaiduMercatorTilingScheme extends Cesium.WebMercatorTilingScheme {
   constructor(options) {
     super(options);
     let projection = new BaiduMercatorProjection();
-    this._projection.project = function(cartographic, result) {
+    this._projection.project = function (cartographic, result) {
       result = result || {};
       result = CoordTransform.WGS84ToGCJ02(
         Cesium.Math.toDegrees(cartographic.longitude),
@@ -27,7 +27,7 @@ class BaiduMercatorTilingScheme extends Cesium.WebMercatorTilingScheme {
       });
       return new Cesium.Cartesian2(result.x, result.y);
     };
-    this._projection.unproject = function(cartesian, result) {
+    this._projection.unproject = function (cartesian, result) {
       result = result || {};
       result = projection.mercatorToLngLat({
         lng: cartesian.x,
@@ -35,10 +35,7 @@ class BaiduMercatorTilingScheme extends Cesium.WebMercatorTilingScheme {
       });
       result = CoordTransform.BD09ToGCJ02(result.lng, result.lat);
       result = CoordTransform.GCJ02ToWGS84(result[0], result[1]);
-      return new Cesium.Cartographic(
-        Cesium.Math.toRadians(result[0]),
-        Cesium.Math.toRadians(result[1])
-      );
+      return new Cesium.Cartographic(Cesium.Math.toRadians(result[0]), Cesium.Math.toRadians(result[1]));
     };
     this.resolutions = options.resolutions || [];
   }

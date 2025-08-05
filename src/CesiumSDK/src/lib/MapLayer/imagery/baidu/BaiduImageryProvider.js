@@ -8,11 +8,9 @@ import BaiduMercatorTilingScheme from './BaiduMercatorTilingScheme';
 const IMG_URL =
   '//maponline{s}.bdimg.com/starpic/qt=satepc&u=x={x};y={y};z={z};v=009;type=sate&fm=46&app=webearth2&udt=2022';
 
-const VEC_URL =
-  '//maponline{s}.bdimg.com/tile/qt=tile&x={x}&y={y}&z={z}&styles=sl&showtext=1&v=083&udt=2022';
+const VEC_URL = '//maponline{s}.bdimg.com/tile/qt=tile&x={x}&y={y}&z={z}&styles=sl&showtext=1&v=083&udt=2022';
 
-const CUSTOM_URL =
-  '//api{s}.map.bdimg.com/customimage/tile?&x={x}&y={y}&z={z}&scale=1&customid={style}';
+const CUSTOM_URL = '//api{s}.map.bdimg.com/customimage/tile?&x={x}&y={y}&z={z}&scale=1&customid={style}';
 
 class BaiduImageryProvider {
   constructor(options = {}) {
@@ -52,54 +50,42 @@ class BaiduImageryProvider {
 
   get tileWidth() {
     if (!this.ready) {
-      throw new Cesium.DeveloperError(
-        'tileWidth must not be called before the imagery provider is ready.'
-      );
+      throw new Cesium.DeveloperError('tileWidth must not be called before the imagery provider is ready.');
     }
     return this._tileWidth;
   }
 
   get tileHeight() {
     if (!this.ready) {
-      throw new Cesium.DeveloperError(
-        'tileHeight must not be called before the imagery provider is ready.'
-      );
+      throw new Cesium.DeveloperError('tileHeight must not be called before the imagery provider is ready.');
     }
     return this._tileHeight;
   }
 
   get maximumLevel() {
     if (!this.ready) {
-      throw new Cesium.DeveloperError(
-        'maximumLevel must not be called before the imagery provider is ready.'
-      );
+      throw new Cesium.DeveloperError('maximumLevel must not be called before the imagery provider is ready.');
     }
     return this._maximumLevel;
   }
 
   get minimumLevel() {
     if (!this.ready) {
-      throw new Cesium.DeveloperError(
-        'minimumLevel must not be called before the imagery provider is ready.'
-      );
+      throw new Cesium.DeveloperError('minimumLevel must not be called before the imagery provider is ready.');
     }
     return 0;
   }
 
   get tilingScheme() {
     if (!this.ready) {
-      throw new Cesium.DeveloperError(
-        'tilingScheme must not be called before the imagery provider is ready.'
-      );
+      throw new Cesium.DeveloperError('tilingScheme must not be called before the imagery provider is ready.');
     }
     return this._tilingScheme;
   }
 
   get rectangle() {
     if (!this.ready) {
-      throw new Cesium.DeveloperError(
-        'rectangle must not be called before the imagery provider is ready.'
-      );
+      throw new Cesium.DeveloperError('rectangle must not be called before the imagery provider is ready.');
     }
     return this._rectangle;
   }
@@ -120,16 +106,11 @@ class BaiduImageryProvider {
 
   requestImage(x, y, level) {
     if (!this.ready) {
-      throw new Cesium.DeveloperError(
-        'requestImage must not be called before the imagery provider is ready.'
-      );
+      throw new Cesium.DeveloperError('requestImage must not be called before the imagery provider is ready.');
     }
     let xTiles = this._tilingScheme.getNumberOfXTilesAtLevel(level);
     let yTiles = this._tilingScheme.getNumberOfYTilesAtLevel(level);
-    let url = this._url
-      .replace('{z}', level)
-      .replace('{s}', String(1))
-      .replace('{style}', this._style);
+    let url = this._url.replace('{z}', level).replace('{s}', String(1)).replace('{style}', this._style);
     if (this._crs === 'WGS84') {
       url = url.replace('{x}', String(x)).replace('{y}', String(-y));
     } else {
